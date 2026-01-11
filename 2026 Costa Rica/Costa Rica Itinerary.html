@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa Rica | 6-Hotel Adventure | Feb 22 - Mar 12, 2026</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #1B4F72; --secondary: #27AE60; --accent: #E67E22; --dark: #2C3E50; --light: #F8F9FA; --purple: #9B59B6; --bio: #00CED1; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Source Sans Pro', sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 50px 20px; text-align: center; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; }
+        .hero .subtitle { font-size: 1.2rem; font-weight: 300; margin-bottom: 10px; }
+        .hero .route { font-size: 1rem; background: rgba(255,255,255,0.2); display: inline-block; padding: 8px 20px; border-radius: 20px; margin-top: 10px; }
+        
+        .flight-info { background: white; max-width: 700px; margin: -25px auto 20px; border-radius: 12px; padding: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); position: relative; z-index: 10; }
+        .flight-box { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .flight-detail { text-align: center; padding: 15px; background: var(--light); border-radius: 10px; flex: 1; min-width: 200px; }
+        .flight-detail .label { font-size: 0.8rem; color: #666; text-transform: uppercase; }
+        .flight-detail .flight-num { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+        .flight-detail .datetime { font-size: 0.95rem; color: var(--dark); }
+        .flight-detail.arrive { border-left: 4px solid var(--secondary); }
+        .flight-detail.depart { border-left: 4px solid var(--accent); }
+        
+        .optimization-banner { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; max-width: 800px; margin: 0 auto 20px; border-radius: 12px; padding: 20px; text-align: center; }
+        .optimization-banner h3 { color: var(--bio); margin-bottom: 8px; }
+        .moon-visual { font-size: 1.5rem; margin: 10px 0; }
+        
+        .hotel-summary { background: white; max-width: 1000px; margin: 0 auto 25px; border-radius: 12px; padding: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
+        .hotel-summary h3 { color: var(--primary); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
+        .hotel-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        .hotel-item { text-align: center; padding: 12px 5px; background: var(--light); border-radius: 8px; }
+        .hotel-item.highlight { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; }
+        .hotel-item.highlight .nights { color: var(--bio); }
+        .hotel-item .nights { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .hotel-item .location { font-size: 0.75rem; font-weight: 600; }
+        .hotel-item .days { font-size: 0.65rem; color: #666; }
+        .hotel-item.highlight .days { color: #aaa; }
+        
+        .nav { background: white; padding: 12px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; }
+        .nav-btn { background: var(--light); border: none; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-family: 'Source Sans Pro', sans-serif; font-size: 0.75rem; white-space: nowrap; transition: all 0.3s; }
+        .nav-btn:hover, .nav-btn.active { background: var(--primary); color: white; }
+        .nav-btn.bio { background: linear-gradient(135deg, #1a1a2e, var(--bio)); color: white; }
+        .nav-btn.caribbean { background: var(--accent); color: white; }
+        .nav-btn.has-options { background: linear-gradient(135deg, var(--primary), var(--purple)); color: white; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
+        .map-section { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
+        #map { height: 400px; width: 100%; }
+        
+        .section-tabs { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
+        .section-tab { background: white; border: 2px solid var(--light); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; }
+        .section-tab:hover { border-color: var(--primary); }
+        .section-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        
+        .day-card { background: white; border-radius: 12px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
+        .day-card.bio { border-left: 4px solid var(--bio); }
+        .day-card.caribbean { border-left: 4px solid var(--accent); }
+        .day-card.has-options { border-left: 4px solid var(--purple); }
+        
+        .day-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .day-card.bio .day-header { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+        .day-card.caribbean .day-header { background: linear-gradient(135deg, var(--accent), #D35400); }
+        .day-card.has-options .day-header { background: linear-gradient(135deg, var(--primary), var(--purple)); }
+        
+        .day-number { font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+        .day-info h3 { font-size: 1rem; margin-bottom: 2px; }
+        .day-info .date { opacity: 0.9; font-size: 0.85rem; }
+        .day-info .hotel { font-size: 0.75rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 8px; margin-top: 3px; display: inline-block; }
+        
+        .day-toggle { font-size: 1.2rem; transition: transform 0.3s; }
+        .day-card.expanded .day-toggle { transform: rotate(180deg); }
+        .day-content { display: none; padding: 15px; }
+        .day-card.expanded .day-content { display: block; }
+        
+        .timeline { position: relative; padding-left: 20px; }
+        .timeline::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 2px; background: var(--light); }
+        .timeline-item { position: relative; padding-bottom: 12px; }
+        .timeline-item::before { content: ''; position: absolute; left: -18px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--secondary); border: 2px solid white; box-shadow: 0 0 0 2px var(--secondary); }
+        .timeline-item.highlight::before { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+        .timeline-item.bio::before { background: var(--bio); box-shadow: 0 0 0 2px var(--bio); }
+        .timeline-time { font-weight: 600; color: var(--primary); font-size: 0.8rem; }
+        .timeline-title { font-weight: 600; margin: 2px 0; font-size: 0.9rem; }
+        .timeline-desc { color: #666; font-size: 0.85rem; }
+        
+        .info-box { background: var(--light); border-radius: 8px; padding: 12px; margin: 12px 0; border-left: 3px solid var(--secondary); font-size: 0.9rem; }
+        .info-box.warning { border-left-color: var(--accent); background: #FEF9E7; }
+        .info-box.history { border-left-color: #E74C3C; background: #FDEDEC; }
+        .info-box.bio { border-left-color: var(--bio); background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; }
+        .info-box.bio h4 { color: var(--bio); }
+        .info-box h4 { margin-bottom: 6px; font-size: 0.95rem; }
+        
+        .adventure-choice { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; padding: 15px; margin: 12px 0; color: white; }
+        .adventure-choice h4 { margin-bottom: 10px; font-size: 1rem; }
+        .adventure-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+        .adventure-tab { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 6px 15px; border-radius: 15px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.3s; font-family: 'Source Sans Pro', sans-serif; }
+        .adventure-tab:hover { background: rgba(255,255,255,0.3); }
+        .adventure-tab.active { background: white; color: var(--purple); border-color: white; }
+        .adventure-content { display: none; background: rgba(255,255,255,0.95); border-radius: 8px; padding: 12px; color: var(--dark); font-size: 0.9rem; }
+        .adventure-content.active { display: block; }
+        .adventure-content h5 { color: var(--purple); margin-bottom: 6px; font-size: 0.95rem; }
+        .adventure-content .highlight { background: #F3E5F5; padding: 6px 10px; border-radius: 5px; margin: 6px 0; border-left: 3px solid var(--purple); font-size: 0.85rem; }
+        .adventure-content ul { margin-left: 15px; }
+        .adventure-content li { margin-bottom: 3px; }
+        
+        .accommodation-card { background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; }
+        .accommodation-card h5 { color: var(--primary); margin-bottom: 3px; font-size: 0.95rem; }
+        .accommodation-card .price { font-weight: 700; color: var(--secondary); font-size: 0.9rem; }
+        .accommodation-card .amenities { font-size: 0.8rem; color: #666; margin-top: 5px; }
+        .accommodation-card a { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.85rem; }
+        
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+        .link-card { background: white; border: 2px solid var(--light); border-radius: 6px; padding: 10px; text-decoration: none; color: var(--dark); transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        .link-card:hover { border-color: var(--primary); }
+        .link-card .icon { font-size: 1.2rem; }
+        .link-card h5 { color: var(--primary); font-size: 0.85rem; margin-bottom: 1px; }
+        .link-card p { font-size: 0.75rem; color: #666; }
+        
+        footer { background: var(--dark); color: white; padding: 25px 15px; text-align: center; margin-top: 30px; }
+        footer h2 { color: var(--secondary); margin-bottom: 5px; font-size: 1.5rem; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hotel-grid { grid-template-columns: repeat(3, 1fr); }
+            .flight-box { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>🇨🇷 Costa Rica</h1>
+        <p class="subtitle">6-Hotel Complete Adventure</p>
+        <div class="route">February 22 - March 12, 2026 • 19 Days</div>
+    </header>
+    
+    <div class="flight-info">
+        <div class="flight-box">
+            <div class="flight-detail arrive">
+                <div class="label">✈️ Arrive</div>
+                <div class="flight-num">WS2260</div>
+                <div class="datetime">Sun, Feb 22 • 7:00 AM</div>
+                <div class="datetime" style="font-weight: 600; color: var(--secondary);">Liberia (LIR)</div>
+            </div>
+            <div class="flight-detail depart">
+                <div class="label">✈️ Depart</div>
+                <div class="flight-num">WS3566</div>
+                <div class="datetime">Thu, Mar 12 • 5:20 PM</div>
+                <div class="datetime" style="font-weight: 600; color: var(--accent);">Liberia (LIR)</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="optimization-banner">
+        <h3>✨ BIOLUMINESCENCE ON DAY 2 ✨</h3>
+        <p>Arrive Day 1, settle in at resort, Bio tour Day 2 evening</p>
+        <div class="moon-visual">🌒 Feb 23: ~25-30% Moon = Excellent Conditions!</div>
+    </div>
+    
+    <div class="hotel-summary">
+        <h3>🏨 Your 6 Hotels - Complete Loop</h3>
+        <div class="hotel-grid">
+            <div class="hotel-item highlight">
+                <div class="nights">2</div>
+                <div class="location">Tambor ✨</div>
+                <div class="days">Feb 22-23</div>
+            </div>
+            <div class="hotel-item">
+                <div class="nights">3</div>
+                <div class="location">Manuel Antonio</div>
+                <div class="days">Feb 24-26</div>
+            </div>
+            <div class="hotel-item" style="background: #FEF3E2;">
+                <div class="nights">4</div>
+                <div class="location">Caribbean</div>
+                <div class="days">Feb 27 - Mar 2</div>
+            </div>
+            <div class="hotel-item">
+                <div class="nights">3</div>
+                <div class="location">Turrialba</div>
+                <div class="days">Mar 3-5</div>
+            </div>
+            <div class="hotel-item">
+                <div class="nights">3</div>
+                <div class="location">Arenal</div>
+                <div class="days">Mar 6-8</div>
+            </div>
+            <div class="hotel-item">
+                <div class="nights">3</div>
+                <div class="location">Monteverde</div>
+                <div class="days">Mar 9-11</div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 12px; font-size: 0.85rem; color: #666;">
+            Loop: LIR → Tambor (no ferry) → Ferry out → Pacific → Caribbean → Central → Arenal → Monteverde → LIR
+        </p>
+    </div>
+    
+    <nav class="nav">
+        <div class="nav-inner">
+            <button class="nav-btn active" onclick="scrollToDay(0)">Overview</button>
+            <button class="nav-btn" onclick="scrollToDay(1)">Day 1</button>
+            <button class="nav-btn bio" onclick="scrollToDay(2)">Day 2 ✨</button>
+            <button class="nav-btn" onclick="scrollToDay(3)">Day 3</button>
+            <button class="nav-btn" onclick="scrollToDay(4)">Day 4</button>
+            <button class="nav-btn has-options" onclick="scrollToDay(5)">Day 5 ⚡</button>
+            <button class="nav-btn caribbean" onclick="scrollToDay(6)">Day 6 🌴</button>
+            <button class="nav-btn caribbean" onclick="scrollToDay(7)">Day 7 🌴</button>
+            <button class="nav-btn caribbean has-options" onclick="scrollToDay(8)">Day 8 🌴⚡</button>
+            <button class="nav-btn caribbean" onclick="scrollToDay(9)">Day 9 🌴</button>
+            <button class="nav-btn" onclick="scrollToDay(10)">Day 10</button>
+            <button class="nav-btn" onclick="scrollToDay(11)">Day 11</button>
+            <button class="nav-btn" onclick="scrollToDay(12)">Day 12</button>
+            <button class="nav-btn" onclick="scrollToDay(13)">Day 13</button>
+            <button class="nav-btn has-options" onclick="scrollToDay(14)">Day 14 ⚡</button>
+            <button class="nav-btn" onclick="scrollToDay(15)">Day 15</button>
+            <button class="nav-btn" onclick="scrollToDay(16)">Day 16</button>
+            <button class="nav-btn" onclick="scrollToDay(17)">Day 17</button>
+            <button class="nav-btn" onclick="scrollToDay(18)">Day 18</button>
+            <button class="nav-btn" onclick="scrollToDay(19)">Day 19</button>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <section class="map-section">
+            <div id="map"></div>
+        </section>
+        
+        <div class="section-tabs">
+            <button class="section-tab active" onclick="showSection('itinerary')">📅 Itinerary</button>
+            <button class="section-tab" onclick="showSection('hotels')">🏨 Hotels</button>
+            <button class="section-tab" onclick="showSection('budget')">💰 Budget</button>
+        </div>
+        
+        <section id="itinerary" class="content-section active">
+            
+            <!-- DAY 1 -->
+            <div class="day-card expanded" id="day-1">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">1</div>
+                        <div class="day-info">
+                            <h3>✈️ Arrive Liberia → Scenic Drive → Tambor</h3>
+                            <div class="date">Sunday, February 22, 2026</div>
+                            <div class="hotel">🏨 Tambor Resort (1 of 2)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🛫 Flight WS2260 - Arrives 7:00 AM</h4>
+                        <p>No ferry today! Scenic drive around the Nicoya Peninsula with stops along the way. Arrive at resort by late afternoon to settle in before tomorrow's bioluminescence.</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">7:00 AM</div>
+                            <div class="timeline-title">Land at Liberia (LIR)</div>
+                            <div class="timeline-desc">Immigration, baggage, pick up rental car (4WD essential)</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">~9:00 AM</div>
+                            <div class="timeline-title">Depart Liberia</div>
+                            <div class="timeline-desc">Begin scenic drive south</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">9:30 AM</div>
+                            <div class="timeline-title">Llanos de Cortés Waterfall</div>
+                            <div class="timeline-desc">30 min from Liberia - stunning wide waterfall, swimming possible</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:30 AM</div>
+                            <div class="timeline-title">Continue south through Nicoya</div>
+                            <div class="timeline-desc">Coffee stop in Nicoya town</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">1:00 PM</div>
+                            <div class="timeline-title">Lunch in Sámara or Nosara</div>
+                            <div class="timeline-desc">Beach town vibes, fresh seafood</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">2:30-4:30 PM</div>
+                            <div class="timeline-title">Continue to Tambor</div>
+                            <div class="timeline-desc">Scenic coastal route</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">5:00 PM</div>
+                            <div class="timeline-title">Arrive at Tango Mar Resort</div>
+                            <div class="timeline-desc">Check in, explore resort amenities, relax</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Evening</div>
+                            <div class="timeline-title">Early dinner, early bed</div>
+                            <div class="timeline-desc">Rest up for bioluminescence tomorrow!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box warning">
+                        <h4>🚗 Driving Note</h4>
+                        <p>Total drive time: ~4.5-5 hours. With stops, plan for 7-8 hours total. The scenic route avoids the ferry and lets you explore the Nicoya Peninsula!</p>
+                    </div>
+                    
+                    <div class="accommodation-card">
+                        <h5>Tango Mar Beachfront Resort</h5>
+                        <div class="price">CAD $250-400/night</div>
+                        <div class="amenities">🏊 Pool • 🏖️ Private beach • 🏌️ Golf course • 🧘 Spa • 🎾 Tennis • 🍽️ Restaurant</div>
+                        <p style="margin-top: 8px;">Luxury beachfront resort near Tambor, 20 min from bioluminescence bay</p>
+                        <a href="https://www.tangomar.com" target="_blank">Book →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 2 - BIOLUMINESCENCE -->
+            <div class="day-card bio" id="day-2">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">2</div>
+                        <div class="day-info">
+                            <h3>✨ Resort Day → BIOLUMINESCENCE!</h3>
+                            <div class="date">Monday, February 23, 2026</div>
+                            <div class="hotel">🏨 Tambor Resort (2 of 2) • 🌒 ~25% Moon</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box bio">
+                        <h4>✨ EXCELLENT BIOLUMINESCENCE CONDITIONS!</h4>
+                        <p>~25-30% moon = great darkness for glowing water. Every paddle stroke creates light trails. You can swim and your body will be outlined in blue light!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">Morning</div>
+                            <div class="timeline-title">Sleep in!</div>
+                            <div class="timeline-desc">Recover from travel day</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:00 AM - 12:00 PM</div>
+                            <div class="timeline-title">Resort amenities</div>
+                            <div class="timeline-desc">Pool, beach, golf, spa - enjoy!</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30 PM</div>
+                            <div class="timeline-title">Lunch at resort</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">2:00-5:00 PM</div>
+                            <div class="timeline-title">More relaxation OR explore Tambor</div>
+                            <div class="timeline-desc">Beach walk, small waterfall nearby, fishing village</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">5:30 PM</div>
+                            <div class="timeline-title">Early dinner</div>
+                            <div class="timeline-desc">Eat before the tour!</div>
+                        </div>
+                        <div class="timeline-item bio">
+                            <div class="timeline-time">6:30-9:30 PM</div>
+                            <div class="timeline-title">🌟 BIOLUMINESCENT KAYAK TOUR 🌟</div>
+                            <div class="timeline-desc">Punta Cuchillos bay • Paddle through glowing water • Swimming in light!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>💡 What Causes the Glow?</h4>
+                        <p>Dinoflagellates - microscopic plankton that emit blue-green light when disturbed. The Gulf of Nicoya is one of the world's most reliable locations for this phenomenon.</p>
+                    </div>
+                    
+                    <div class="links-grid">
+                        <a href="https://www.bahiarica.com" target="_blank" class="link-card">
+                            <div class="icon">✨</div>
+                            <div><h5>Bahia Rica Bio Tours</h5><p>~$36 USD per person</p></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 3 -->
+            <div class="day-card" id="day-3">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">3</div>
+                        <div class="day-info">
+                            <h3>Ferry → Manuel Antonio</h3>
+                            <div class="date">Tuesday, February 24, 2026</div>
+                            <div class="hotel">🏨 Manuel Antonio (1 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🚢 Ferry Day - Crossing to Mainland</h4>
+                        <p>Take the ferry from Paquera to Puntarenas, then drive south to Manuel Antonio. Much faster than driving around!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:00 AM</div>
+                            <div class="timeline-title">Breakfast at resort</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:30 AM</div>
+                            <div class="timeline-title">Drive to Paquera ferry terminal</div>
+                            <div class="timeline-desc">~30 min from Tambor</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:30 AM</div>
+                            <div class="timeline-title">Ferry to Puntarenas</div>
+                            <div class="timeline-desc">~1 hr crossing</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:00-3:00 PM</div>
+                            <div class="timeline-title">Drive south to Manuel Antonio</div>
+                            <div class="timeline-desc">~2.5 hrs coastal route via Jacó</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">3:30 PM</div>
+                            <div class="timeline-title">Check in, sunset</div>
+                            <div class="timeline-desc">Pool or beach with a drink</div>
+                        </div>
+                    </div>
+                    
+                    <div class="accommodation-card">
+                        <h5>Arenas del Mar</h5>
+                        <div class="price">CAD $450-650/night</div>
+                        <div class="amenities">🏖️ Two private beaches • 🏊 Infinity pools • 🌿 Nature reserve • 🍽️ Farm-to-table</div>
+                        <p style="margin-top: 8px;">Best location in Manuel Antonio, exceptional sustainability</p>
+                        <a href="https://www.arenasdelmar.com" target="_blank">Book →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 4 -->
+            <div class="day-card" id="day-4">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">4</div>
+                        <div class="day-info">
+                            <h3>🐒 Manuel Antonio Park & Whales</h3>
+                            <div class="date">Wednesday, February 25, 2026</div>
+                            <div class="hotel">🏨 Manuel Antonio (2 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">7:00-11:00 AM</div>
+                            <div class="timeline-title">Manuel Antonio National Park</div>
+                            <div class="timeline-desc">Arrive at opening • Hire guide with scope • Sloths, capuchins, squirrel monkeys</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:30 AM</div>
+                            <div class="timeline-title">Beach time in park</div>
+                            <div class="timeline-desc">Swimming, snorkeling at Playa Manuel Antonio</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">2:00-5:30 PM</div>
+                            <div class="timeline-title">Whale Watching</div>
+                            <div class="timeline-desc">Humpbacks present in late February • Dolphins common</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Evening</div>
+                            <div class="timeline-title">Dinner at El Avion</div>
+                            <div class="timeline-desc">Restaurant built around 1954 CIA cargo plane</div>
+                        </div>
+                    </div>
+                    
+                    <div class="links-grid">
+                        <a href="https://www.planetdolphin.com" target="_blank" class="link-card">
+                            <div class="icon">🐋</div>
+                            <div><h5>Planet Dolphin</h5><p>~$85 USD whale watching</p></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 5 - CHOOSE -->
+            <div class="day-card has-options" id="day-5">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">5</div>
+                        <div class="day-info">
+                            <h3>⚡ Choose: Uvita Day Trip OR Rest</h3>
+                            <div class="date">Thursday, February 26, 2026</div>
+                            <div class="hotel">🏨 Manuel Antonio (3 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="adventure-choice">
+                        <h4>🎯 Choose Your Adventure</h4>
+                        <div class="adventure-tabs">
+                            <button class="adventure-tab active" onclick="showAdventure(this, 'day5-a')">A: Uvita Whale's Tail</button>
+                            <button class="adventure-tab" onclick="showAdventure(this, 'day5-b')">B: Rest Day</button>
+                        </div>
+                        
+                        <div id="day5-a" class="adventure-content active">
+                            <h5>Option A: Uvita Whale's Tail Day Trip</h5>
+                            <div class="highlight">Best for: Iconic sandbar photo, exploring south</div>
+                            <ul>
+                                <li><strong>8:00 AM:</strong> Drive to Uvita (1 hr south)</li>
+                                <li><strong>9:00 AM - 12:00 PM:</strong> Marino Ballena NP - Whale's Tail sandbar at low tide</li>
+                                <li>Check tide tables in advance!</li>
+                                <li><strong>Lunch:</strong> Fresh seafood in Uvita</li>
+                                <li><strong>Afternoon:</strong> Beach or Nauyaca Waterfall</li>
+                                <li><strong>4:00 PM:</strong> Return to Manuel Antonio</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="day5-b" class="adventure-content">
+                            <h5>Option B: Rest Day at Manuel Antonio</h5>
+                            <div class="highlight">Best for: Recharging before big transfer tomorrow</div>
+                            <ul>
+                                <li>Sleep in!</li>
+                                <li>Hotel beach and pool time</li>
+                                <li>Snorkeling at Biesanz Beach</li>
+                                <li>Spa treatment</li>
+                                <li>Save energy - long drive to Caribbean tomorrow</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 6 - CARIBBEAN -->
+            <div class="day-card caribbean" id="day-6">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">6</div>
+                        <div class="day-info">
+                            <h3>🌴 MA → Stone Spheres → Caribbean</h3>
+                            <div class="date">Friday, February 27, 2026</div>
+                            <div class="hotel">🏨 Caribbean (1 of 4)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🏺 UNESCO World Heritage Site En Route!</h4>
+                        <p>Finca 6 Stone Spheres breaks up the long drive. Mysterious Diquís spheres up to 2m diameter, purpose unknown.</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">7:00 AM</div>
+                            <div class="timeline-title">Depart Manuel Antonio</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">10:00 AM - 12:00 PM</div>
+                            <div class="timeline-title">Finca 6 Stone Spheres</div>
+                            <div class="timeline-desc">UNESCO site • On-site museum • Created 800-1500 CE</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30 PM</div>
+                            <div class="timeline-title">Lunch near Palmar</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">1:00-5:30 PM</div>
+                            <div class="timeline-title">Drive to Caribbean</div>
+                            <div class="timeline-desc">Via San José bypass to Cahuita (4.5 hrs)</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Evening</div>
+                            <div class="timeline-title">Welcome to the Caribbean!</div>
+                            <div class="timeline-desc">Rice & beans with coconut milk for dinner</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box history">
+                        <h4>⚠️ El Diquís Dam Controversy</h4>
+                        <p>Proposed hydroelectric project threatens 7 indigenous territories. The Bribri you may meet on Day 8 actively oppose it.</p>
+                    </div>
+                    
+                    <div class="accommodation-card">
+                        <h5>Le Caméléon Boutique Hotel</h5>
+                        <div class="price">CAD $200-300/night</div>
+                        <div class="amenities">🏖️ Beachfront • 🏊 Pool • 🍽️ Restaurant • 🚴 Bikes</div>
+                        <p style="margin-top: 8px;">Stylish boutique hotel in Puerto Viejo, your base for 4 nights</p>
+                        <a href="https://www.lecameleonhotel.com" target="_blank">Book →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 7 -->
+            <div class="day-card caribbean" id="day-7">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">7</div>
+                        <div class="day-info">
+                            <h3>🌴 Cahuita NP & Caribbean Culture</h3>
+                            <div class="date">Saturday, February 28, 2026</div>
+                            <div class="hotel">🏨 Caribbean (2 of 4)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box history">
+                        <h4>🏛️ Afro-Caribbean History</h4>
+                        <p><strong>1870s:</strong> Jamaican workers built the railroad<br>
+                        <strong>1935:</strong> Barred from the Pacific coast by law<br>
+                        <strong>1948:</strong> Finally granted citizenship</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">7:00-11:00 AM</div>
+                            <div class="timeline-title">Cahuita National Park</div>
+                            <div class="timeline-desc">Free entry (community agreement!) • Coral reef snorkeling • Wildlife trails</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:00 PM</div>
+                            <div class="timeline-title">Lunch at Miss Edith's</div>
+                            <div class="timeline-desc">Legendary Caribbean cooking - rice & beans, rondón</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Afternoon</div>
+                            <div class="timeline-title">Cahuita town exploration</div>
+                            <div class="timeline-desc">Caribbean architecture, local shops, beach time</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Evening</div>
+                            <div class="timeline-title">Live reggae/calypso</div>
+                            <div class="timeline-desc">Caribbean nights are lively!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>🍽️ Caribbean Cuisine - Different from Pacific!</h4>
+                        <p><strong>Rice & Beans</strong> - NOT gallo pinto! Cooked with coconut milk & thyme<br>
+                        <strong>Rondón</strong> - Seafood coconut stew<br>
+                        <strong>Patí</strong> - Spicy meat pastries (Jamaican patty origin)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 8 - CHOOSE -->
+            <div class="day-card caribbean has-options" id="day-8">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">8</div>
+                        <div class="day-info">
+                            <h3>🌴⚡ Choose: Bribri OR Tortuguero OR Beach</h3>
+                            <div class="date">Sunday, March 1, 2026</div>
+                            <div class="hotel">🏨 Caribbean (3 of 4)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="adventure-choice">
+                        <h4>🎯 Choose Your Adventure</h4>
+                        <div class="adventure-tabs">
+                            <button class="adventure-tab active" onclick="showAdventure(this, 'day8-a')">A: Bribri Community</button>
+                            <button class="adventure-tab" onclick="showAdventure(this, 'day8-b')">B: Tortuguero</button>
+                            <button class="adventure-tab" onclick="showAdventure(this, 'day8-c')">C: Beach Day</button>
+                        </div>
+                        
+                        <div id="day8-a" class="adventure-content active">
+                            <h5>Option A: Bribri Indigenous Community</h5>
+                            <div class="highlight">Best for: Deepest cultural immersion, cacao ceremony</div>
+                            <ul>
+                                <li>Costa Rica's largest indigenous group - MATRILINEAL society</li>
+                                <li>Only women inherit land, only women prepare sacred cacao</li>
+                                <li><strong>7:30 AM:</strong> Depart for Bribri territory</li>
+                                <li><strong>8:30 AM - 3:00 PM:</strong> Canoe up Yorkín River, cacao ceremony, lunch, medicinal plant walk</li>
+                                <li><strong>4:00 PM:</strong> Return</li>
+                            </ul>
+                            <p><a href="https://www.stibrawpa.org" target="_blank">Stibrawpa Women's Association →</a></p>
+                        </div>
+                        
+                        <div id="day8-b" class="adventure-content">
+                            <h5>Option B: Tortuguero Day Trip</h5>
+                            <div class="highlight">Best for: Wildlife photography, canal safari</div>
+                            <ul>
+                                <li>Early March = beginning of leatherback season (possible but not guaranteed)</li>
+                                <li>Canal wildlife ALWAYS excellent - monkeys, sloths, caimans, toucans</li>
+                                <li><strong>5:30 AM:</strong> Early pickup</li>
+                                <li><strong>7:00 AM - 2:00 PM:</strong> Tortuguero canals boat tour</li>
+                                <li><strong>4:00 PM:</strong> Return</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="day8-c" class="adventure-content">
+                            <h5>Option C: Puerto Viejo Beach Day</h5>
+                            <div class="highlight">Best for: Relaxation, beach photography</div>
+                            <ul>
+                                <li>Sleep in, leisurely breakfast</li>
+                                <li>Beach hopping: Playa Cocles, Punta Uva, Manzanillo</li>
+                                <li><strong>3:00 PM:</strong> Jaguar Rescue Center tour</li>
+                                <li><strong>Evening:</strong> Puerto Viejo nightlife</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 9 -->
+            <div class="day-card caribbean" id="day-9">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">9</div>
+                        <div class="day-info">
+                            <h3>🌴 Flexible Caribbean Day</h3>
+                            <div class="date">Monday, March 2, 2026</div>
+                            <div class="hotel">🏨 Caribbean (4 of 4)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🎯 Catch-Up Day</h4>
+                        <p>Do whatever you missed on Day 8, or just enjoy the Caribbean vibe!</p>
+                    </div>
+                    
+                    <p style="margin: 15px 0;"><strong>Options:</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>Bribri community (if skipped Day 8)</li>
+                        <li>Jaguar Rescue Center (if skipped)</li>
+                        <li>More beaches - Manzanillo, Gandoca-Manzanillo Refuge</li>
+                        <li>Snorkeling at Punta Uva</li>
+                        <li>Chocolate tour (Caribbean cacao!)</li>
+                        <li>The Rich Coast Project cultural preservation visit</li>
+                        <li>Pure relaxation - you've earned it!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- DAY 10 -->
+            <div class="day-card" id="day-10">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">10</div>
+                        <div class="day-info">
+                            <h3>Caribbean → Turrialba + CATIE</h3>
+                            <div class="date">Tuesday, March 3, 2026</div>
+                            <div class="hotel">🏨 Turrialba (1 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:00 AM</div>
+                            <div class="timeline-title">Final Caribbean breakfast</div>
+                            <div class="timeline-desc">Rice & beans one more time</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:00 AM - 12:00 PM</div>
+                            <div class="timeline-title">Drive to Turrialba</div>
+                            <div class="timeline-desc">~3 hours via Siquirres, through banana country</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30 PM</div>
+                            <div class="timeline-title">Lunch, check in</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">2:00-5:00 PM</div>
+                            <div class="timeline-title">CATIE Botanical Gardens</div>
+                            <div class="timeline-desc">2,500+ plant species • Tropical agriculture research • Birdwatching lake</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>🌱 Why CATIE?</h4>
+                        <p>World-renowned tropical agriculture research center. One of the largest collections of tropical plants in the world, plus excellent birding around the lake.</p>
+                    </div>
+                    
+                    <div class="accommodation-card">
+                        <h5>Casa Turire</h5>
+                        <div class="price">CAD $250-350/night</div>
+                        <div class="amenities">🏞️ Lakeside • 🏊 Pool • 🎣 Fishing • 🍽️ Fine dining</div>
+                        <p style="margin-top: 8px;">Elegant hacienda-style hotel with excellent restaurant</p>
+                        <a href="https://www.hotelcasaturire.com" target="_blank">Book →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 11 -->
+            <div class="day-card" id="day-11">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">11</div>
+                        <div class="day-info">
+                            <h3>🏺 Guayabo Archaeological Site</h3>
+                            <div class="date">Wednesday, March 4, 2026</div>
+                            <div class="hotel">🏨 Turrialba (2 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🏺 UNESCO Tentative List Site</h4>
+                        <p>Costa Rica's most significant pre-Columbian site. 3,000-year-old aqueducts that still work!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">7:30 AM - 12:00 PM</div>
+                            <div class="timeline-title">Guayabo National Monument</div>
+                            <div class="timeline-desc">Stone causeways • Circular foundations • Working aqueducts • Petroglyphs</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Afternoon</div>
+                            <div class="timeline-title">Rest at hotel</div>
+                            <div class="timeline-desc">Save energy for Pacuare tomorrow!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box history">
+                        <h4>🏛️ Historical Significance</h4>
+                        <p>Inhabited 1000 BCE - 1400 CE. The engineering sophistication suggests a complex society. Connection to the Diquís stone sphere culture is debated.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 12 -->
+            <div class="day-card" id="day-12">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">12</div>
+                        <div class="day-info">
+                            <h3>🚣 Pacuare River Rafting!</h3>
+                            <div class="date">Thursday, March 5, 2026</div>
+                            <div class="hotel">🏨 Turrialba (3 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🚣 World's Top 5 Rafting Rivers!</h4>
+                        <p>18 miles through pristine canyon. Class III-IV. Turrialba is the closest base - shortest transfer!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">6:00 AM</div>
+                            <div class="timeline-title">Pickup from hotel</div>
+                            <div class="timeline-desc">Short drive to put-in point</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">8:00 AM - 2:30 PM</div>
+                            <div class="timeline-title">Full-day Pacuare rafting</div>
+                            <div class="timeline-desc">Canyon waterfalls • Wildlife from raft • Riverside lunch included</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">4:00 PM</div>
+                            <div class="timeline-title">Return to Turrialba</div>
+                            <div class="timeline-desc">Dinner, rest those muscles!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="links-grid">
+                        <a href="https://www.riostropicales.com" target="_blank" class="link-card">
+                            <div class="icon">🚣</div>
+                            <div><h5>Ríos Tropicales</h5><p>~$99 USD</p></div>
+                        </a>
+                        <a href="https://www.exploradoresoutdoors.com" target="_blank" class="link-card">
+                            <div class="icon">🚣</div>
+                            <div><h5>Exploradores Outdoors</h5><p>~$99 USD</p></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 13 -->
+            <div class="day-card" id="day-13">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">13</div>
+                        <div class="day-info">
+                            <h3>San José Museums → Arenal</h3>
+                            <div class="date">Friday, March 6, 2026</div>
+                            <div class="hotel">🏨 Arenal (1 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🏛️ Cultural Stop En Route</h4>
+                        <p>San José is between Turrialba and Arenal - perfect for a museum visit!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">7:30 AM</div>
+                            <div class="timeline-title">Depart Turrialba for San José</div>
+                            <div class="timeline-desc">1.5 hours to city center</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">9:00 AM - 12:00 PM</div>
+                            <div class="timeline-title">San José Museums</div>
+                            <div class="timeline-desc">National Theater (1897) • Pre-Columbian Gold Museum (1,600+ artifacts)</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30 PM</div>
+                            <div class="timeline-title">Lunch in San José</div>
+                            <div class="timeline-desc">Mercado Central or Barrio Escalante</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">1:30-4:00 PM</div>
+                            <div class="timeline-title">Drive to Arenal</div>
+                            <div class="timeline-desc">2.5 hours via scenic route</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Evening</div>
+                            <div class="timeline-title">Hot springs!</div>
+                            <div class="timeline-desc">Tabacón (luxury), Ecotermales (intimate), or free El Cholín</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box history">
+                        <h4>🏛️ Historical Connection</h4>
+                        <p>The Gold Museum artifacts were made by the same Diquís culture whose stone spheres you saw on Day 6!</p>
+                    </div>
+                    
+                    <div class="accommodation-card">
+                        <h5>Arenal Observatory Lodge</h5>
+                        <div class="price">CAD $180-250/night</div>
+                        <div class="amenities">🌋 Volcano views • 🥾 Trails • 🦜 Birding • 🏊 Pool</div>
+                        <p style="margin-top: 8px;">Closest lodge to volcano, nature lover's paradise</p>
+                        <a href="https://www.arenalobservatorylodge.com" target="_blank">Book →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 14 - CHOOSE -->
+            <div class="day-card has-options" id="day-14">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">14</div>
+                        <div class="day-info">
+                            <h3>⚡ Choose: Maleku + Volcano OR Río Celeste</h3>
+                            <div class="date">Saturday, March 7, 2026</div>
+                            <div class="hotel">🏨 Arenal (2 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="adventure-choice">
+                        <h4>🎯 Choose Your Adventure</h4>
+                        <div class="adventure-tabs">
+                            <button class="adventure-tab active" onclick="showAdventure(this, 'day14-a')">A: Maleku + Volcano</button>
+                            <button class="adventure-tab" onclick="showAdventure(this, 'day14-b')">B: Río Celeste</button>
+                        </div>
+                        
+                        <div id="day14-a" class="adventure-content active">
+                            <h5>Option A: Maleku Community + Arenal Volcano</h5>
+                            <div class="highlight">Best for: Cultural immersion + volcano landscapes</div>
+                            <ul>
+                                <li><strong>8:00-11:30 AM:</strong> Maleku Community (1 hr north)</li>
+                                <li>Costa Rica's smallest indigenous group (~700 people)</li>
+                                <li>Traditional crafts, language lessons, worldview</li>
+                                <li><strong>12:30 PM:</strong> Lunch in La Fortuna</li>
+                                <li><strong>2:00-5:00 PM:</strong> Arenal Volcano NP - lava flow trails</li>
+                                <li><strong>Evening:</strong> Hot springs!</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="day14-b" class="adventure-content">
+                            <h5>Option B: Río Celeste Blue River</h5>
+                            <div class="highlight">Best for: Photographers, Maleku sacred geography</div>
+                            <ul>
+                                <li><strong>7:00 AM:</strong> Depart (1.5 hrs to Tenorio Volcano NP)</li>
+                                <li><strong>8:30 AM - 12:30 PM:</strong> Hike to turquoise waterfall</li>
+                                <li>Intense blue from mineral reaction</li>
+                                <li>Maleku believe this is where gods painted the sky</li>
+                                <li><strong>Afternoon:</strong> Return via volcano viewpoint</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 15 -->
+            <div class="day-card" id="day-15">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">15</div>
+                        <div class="day-info">
+                            <h3>Sarapiquí: La Selva + Tirimbina</h3>
+                            <div class="date">Sunday, March 8, 2026</div>
+                            <div class="hotel">🏨 Arenal (3 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>📍 Day Trip - Return to Arenal</h4>
+                        <p>La Selva & Tirimbina are 10 min apart, 2 hrs from Arenal. Full rainforest immersion!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">5:30 AM</div>
+                            <div class="timeline-title">Early departure</div>
+                            <div class="timeline-desc">Best birding is early!</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">7:30-10:30 AM</div>
+                            <div class="timeline-title">La Selva Biological Station</div>
+                            <div class="timeline-desc">World-renowned • 450+ bird species • Peccaries</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">11:00 AM - 1:00 PM</div>
+                            <div class="timeline-title">Tirimbina Reserve</div>
+                            <div class="timeline-desc">262m suspension bridge • Poison dart frogs • Howlers</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">1:30-3:00 PM</div>
+                            <div class="timeline-title">Chocolate Tour at Tirimbina</div>
+                            <div class="timeline-desc">Pre-Columbian cacao history • Bean to bar</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">3:30-5:30 PM</div>
+                            <div class="timeline-title">Return to Arenal</div>
+                            <div class="timeline-desc">Final hot springs session!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 16 -->
+            <div class="day-card" id="day-16">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">16</div>
+                        <div class="day-info">
+                            <h3>Arenal → Monteverde (Jeep-Boat-Jeep)</h3>
+                            <div class="date">Monday, March 9, 2026</div>
+                            <div class="hotel">🏨 Monteverde (1 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🚤 Scenic Transfer!</h4>
+                        <p>The famous jeep-boat-jeep crosses Lake Arenal with volcano views!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:00 AM</div>
+                            <div class="timeline-title">Final Arenal breakfast</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">8:30 AM - 12:00 PM</div>
+                            <div class="timeline-title">Jeep-Boat-Jeep Transfer</div>
+                            <div class="timeline-desc">Lake Arenal crossing with volcano views</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30 PM</div>
+                            <div class="timeline-title">Arrive Monteverde, lunch</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">2:00-5:00 PM</div>
+                            <div class="timeline-title">Orchid Garden OR Hummingbirds</div>
+                            <div class="timeline-desc">500+ orchid species OR 14+ hummingbird species</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">6:30-9:00 PM</div>
+                            <div class="timeline-title">Night Tour - Santa Elena</div>
+                            <div class="timeline-desc">Tarantulas, sleeping birds, kinkajous</div>
+                        </div>
+                    </div>
+                    
+                    <div class="accommodation-card">
+                        <h5>Hotel Belmar</h5>
+                        <div class="price">CAD $280-400/night</div>
+                        <div class="amenities">🍽️ Farm-to-table • 🌄 Views • 🍷 Wine cellar • 🧀 Cheese</div>
+                        <p style="margin-top: 8px;">Sustainability leader with exceptional dining</p>
+                        <a href="https://www.hotelbelmar.net" target="_blank">Book →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 17 -->
+            <div class="day-card" id="day-17">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">17</div>
+                        <div class="day-info">
+                            <h3>🦜 Quetzal Quest & Cloud Forest</h3>
+                            <div class="date">Tuesday, March 10, 2026</div>
+                            <div class="hotel">🏨 Monteverde (2 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🦜 Still Quetzal Season!</h4>
+                        <p>Early March is excellent for resplendent quetzals. Males still displaying 2-foot iridescent tails. BOOK GUIDE IN ADVANCE!</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">5:30-9:00 AM</div>
+                            <div class="timeline-title">Guided Quetzal Tour</div>
+                            <div class="timeline-desc">Monteverde Cloud Forest Reserve • Three-wattled Bellbird too</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:30 AM</div>
+                            <div class="timeline-title">Breakfast</div>
+                            <div class="timeline-desc">Well-earned after early start!</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:30 AM - 12:30 PM</div>
+                            <div class="timeline-title">Self-guided reserve walk</div>
+                            <div class="timeline-desc">Cloud forest atmosphere: mist, epiphytes, moss</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">2:00-5:00 PM</div>
+                            <div class="timeline-title">Zip-lining at Selvatura</div>
+                            <div class="timeline-desc">Or more relaxed afternoon</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAY 18 -->
+            <div class="day-card" id="day-18">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">18</div>
+                        <div class="day-info">
+                            <h3>☕ Coffee Tour & Flexible Day</h3>
+                            <div class="date">Wednesday, March 11, 2026</div>
+                            <div class="hotel">🏨 Monteverde (3 of 3)</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box">
+                        <h4>🎉 Bonus Day in Monteverde!</h4>
+                        <p>Extra time to explore, relax, or catch anything you missed.</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">8:00-10:30 AM</div>
+                            <div class="timeline-title">Coffee Tour</div>
+                            <div class="timeline-desc">Don Juan or Café de Monteverde - bean to cup</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:00 AM - 1:00 PM</div>
+                            <div class="timeline-title">Santa Elena town</div>
+                            <div class="timeline-desc">Shopping, local galleries, souvenirs</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Afternoon</div>
+                            <div class="timeline-title">Flexible</div>
+                            <div class="timeline-desc">Second quetzal attempt, more reserves, hanging bridges, or spa</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Evening</div>
+                            <div class="timeline-title">Farewell dinner</div>
+                            <div class="timeline-desc">Farm-to-table at Hotel Belmar</div>
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>Other options for today:</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>Curi-Cancha Reserve (less crowded, excellent birds)</li>
+                        <li>Selvatura hanging bridges + hummingbird garden</li>
+                        <li>Bat Jungle educational center</li>
+                        <li>Second night tour (different reserve)</li>
+                        <li>Simply relax - you've had an amazing trip!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- DAY 19 -->
+            <div class="day-card" id="day-19">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="day-number">19</div>
+                        <div class="day-info">
+                            <h3>✈️ Monteverde → Liberia Departure</h3>
+                            <div class="date">Thursday, March 12, 2026</div>
+                            <div class="hotel">🛫 Flight WS3566 • 5:20 PM</div>
+                        </div>
+                    </div>
+                    <div class="day-toggle">▼</div>
+                </div>
+                <div class="day-content">
+                    <div class="info-box warning">
+                        <h4>✈️ Flight WS3566 - Departs 5:20 PM</h4>
+                        <p>Monteverde → Liberia is 2.5 hours. Leave by noon to arrive ~2:30 PM for your 5:20 PM flight.</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:00 AM</div>
+                            <div class="timeline-title">Leisurely breakfast</div>
+                            <div class="timeline-desc">No rush this morning</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:00-11:00 AM</div>
+                            <div class="timeline-title">Final morning options</div>
+                            <div class="timeline-desc">Quick reserve walk, coffee shopping, or pack and relax</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:30 AM</div>
+                            <div class="timeline-title">Check out, grab lunch</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:00 PM</div>
+                            <div class="timeline-title">Depart for Liberia</div>
+                            <div class="timeline-desc">2.5 hr drive via Tilarán - one more Lake Arenal view!</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">2:30 PM</div>
+                            <div class="timeline-title">Arrive Liberia Airport</div>
+                            <div class="timeline-desc">Return rental car, check in</div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">5:20 PM</div>
+                            <div class="timeline-title">✈️ WS3566 Departure</div>
+                            <div class="timeline-desc">¡Hasta luego, Costa Rica!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>🔄 Your Complete Adventure!</h4>
+                        <p>✨ Bioluminescence • 🐒 Manuel Antonio • 🏺 Stone Spheres • 🌴 Caribbean • 🏛️ Bribri • 🚣 Pacuare • 🦜 Quetzal • 🌋 Arenal • ☕ Coffee... and so many memories!</p>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+        
+        <!-- HOTELS SECTION -->
+        <section id="hotels" class="content-section">
+            <h2 style="margin-bottom: 15px;">Your 6 Hotels</h2>
+            
+            <div class="links-grid">
+                <a href="https://www.tangomar.com" class="link-card" target="_blank">
+                    <div><h5>1. Tango Mar (Tambor) ✨</h5><p>2 nights • $250-400 • Bio nearby!</p></div>
+                </a>
+                <a href="https://www.arenasdelmar.com" class="link-card" target="_blank">
+                    <div><h5>2. Arenas del Mar (Manuel Antonio)</h5><p>3 nights • $450-650</p></div>
+                </a>
+                <a href="https://www.lecameleonhotel.com" class="link-card" target="_blank">
+                    <div><h5>3. Le Caméléon (Caribbean)</h5><p>4 nights • $200-300</p></div>
+                </a>
+                <a href="https://www.hotelcasaturire.com" class="link-card" target="_blank">
+                    <div><h5>4. Casa Turire (Turrialba)</h5><p>3 nights • $250-350</p></div>
+                </a>
+                <a href="https://www.arenalobservatorylodge.com" class="link-card" target="_blank">
+                    <div><h5>5. Observatory Lodge (Arenal)</h5><p>3 nights • $180-250</p></div>
+                </a>
+                <a href="https://www.hotelbelmar.net" class="link-card" target="_blank">
+                    <div><h5>6. Hotel Belmar (Monteverde)</h5><p>3 nights • $280-400</p></div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- BUDGET SECTION -->
+        <section id="budget" class="content-section">
+            <h2 style="margin-bottom: 15px;">Budget (CAD, 2 people)</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                <tr style="background: var(--primary); color: white;">
+                    <th style="padding: 10px; text-align: left;">Category</th>
+                    <th style="padding: 10px; text-align: right;">Estimate</th>
+                </tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Flights (WS2260 / WS3566)</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">BOOKED ✓</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">6 Hotels (18 nights)</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$5,000-7,500</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Rental Car (19 days, 4WD)</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,300-1,700</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Tours & Activities</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Meals</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Fuel, Parks, Ferry, Misc</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$700-1,000</td></tr>
+                <tr style="background: #E8F6F3; font-weight: bold;">
+                    <td style="padding: 10px;">TOTAL (excl. flights)</td>
+                    <td style="padding: 10px; text-align: right;">$9,800-14,200</td>
+                </tr>
+            </table>
+        </section>
+        
+    </main>
+    
+    <footer>
+        <h2>¡Pura Vida!</h2>
+        <p>6 Hotels • 19 Days • Complete Loop</p>
+        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">WS2260 Feb 22 → Tambor → Pacific → Caribbean → Central → Arenal → Monteverde → WS3566 Mar 12</p>
+    </footer>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([9.9, -84.2], 7);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+        
+        // Airport
+        L.marker([10.5933, -85.5444]).addTo(map).bindPopup('<strong>✈️ LIR - Liberia</strong><br>WS2260 Arrive Feb 22<br>WS3566 Depart Mar 12');
+        
+        // Hotels
+        const hotels = [
+            { name: "Tambor ✨", lat: 9.7167, lng: -85.0167, nights: 2, order: 1, bio: true },
+            { name: "Manuel Antonio", lat: 9.3920, lng: -84.1360, nights: 3, order: 2 },
+            { name: "Caribbean", lat: 9.7333, lng: -82.8333, nights: 4, order: 3 },
+            { name: "Turrialba", lat: 9.9044, lng: -83.6856, nights: 3, order: 4 },
+            { name: "Arenal", lat: 10.4626, lng: -84.7032, nights: 3, order: 5 },
+            { name: "Monteverde", lat: 10.3000, lng: -84.8167, nights: 3, order: 6 }
+        ];
+        
+        hotels.forEach(h => {
+            let color = "#1B4F72";
+            if (h.bio) color = "#00CED1";
+            else if (h.name.includes("Caribbean")) color = "#E67E22";
+            
+            L.circleMarker([h.lat, h.lng], {
+                radius: 6 + h.nights * 2,
+                fillColor: color,
+                color: "#fff", weight: 2, fillOpacity: 0.8
+            }).addTo(map).bindPopup(`<strong>${h.order}. ${h.name}</strong><br>${h.nights} nights`);
+        });
+        
+        // Route
+        const route = [
+            [10.5933, -85.5444], // LIR arrive
+            [9.7167, -85.0167],  // Tambor (drive around, no ferry)
+            [9.3920, -84.1360],  // MA (ferry out)
+            [9.7333, -82.8333],  // Caribbean
+            [9.9044, -83.6856],  // Turrialba
+            [10.4626, -84.7032], // Arenal
+            [10.3000, -84.8167], // Monteverde
+            [10.5933, -85.5444]  // LIR depart
+        ];
+        L.polyline(route, {color: '#1B4F72', weight: 3, opacity: 0.7}).addTo(map);
+        
+        function toggleDay(h) { h.parentElement.classList.toggle('expanded'); }
+        function showAdventure(btn, id) {
+            const p = btn.closest('.adventure-choice');
+            p.querySelectorAll('.adventure-tab').forEach(t => t.classList.remove('active'));
+            p.querySelectorAll('.adventure-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(id).classList.add('active');
+        }
+        function showSection(id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+        function scrollToDay(n) {
+            if (n === 0) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+            showSection('itinerary');
+            const c = document.getElementById(`day-${n}`);
+            if (c) { c.classList.add('expanded'); c.scrollIntoView({ behavior: 'smooth' }); }
+        }
+    </script>
+</body>
+</html>
