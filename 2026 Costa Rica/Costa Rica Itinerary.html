@@ -1,148 +1,677 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Costa Rica | 6-Hotel Adventure | Feb 22 - Mar 12, 2026</title>
-    
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
-        :root { --primary: #1B4F72; --secondary: #27AE60; --accent: #E67E22; --dark: #2C3E50; --light: #F8F9FA; --purple: #9B59B6; --bio: #00CED1; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Source Sans Pro', sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
-        
-        .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 50px 20px; text-align: center; }
-        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; }
-        .hero .subtitle { font-size: 1.2rem; font-weight: 300; margin-bottom: 10px; }
-        .hero .route { font-size: 1rem; background: rgba(255,255,255,0.2); display: inline-block; padding: 8px 20px; border-radius: 20px; margin-top: 10px; }
-        
-        .flight-info { background: white; max-width: 700px; margin: -25px auto 20px; border-radius: 12px; padding: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); position: relative; z-index: 10; }
-        .flight-box { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .flight-detail { text-align: center; padding: 15px; background: var(--light); border-radius: 10px; flex: 1; min-width: 200px; }
-        .flight-detail .label { font-size: 0.8rem; color: #666; text-transform: uppercase; }
-        .flight-detail .flight-num { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
-        .flight-detail .datetime { font-size: 0.95rem; color: var(--dark); }
-        .flight-detail.arrive { border-left: 4px solid var(--secondary); }
-        .flight-detail.depart { border-left: 4px solid var(--accent); }
-        
-        .optimization-banner { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; max-width: 800px; margin: 0 auto 20px; border-radius: 12px; padding: 20px; text-align: center; }
-        .optimization-banner h3 { color: var(--bio); margin-bottom: 8px; }
-        .moon-visual { font-size: 1.5rem; margin: 10px 0; }
-        
-        .hotel-summary { background: white; max-width: 1000px; margin: 0 auto 25px; border-radius: 12px; padding: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
-        .hotel-summary h3 { color: var(--primary); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
-        .hotel-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
-        .hotel-item { text-align: center; padding: 12px 5px; background: var(--light); border-radius: 8px; }
-        .hotel-item.highlight { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; }
-        .hotel-item.highlight .nights { color: var(--bio); }
-        .hotel-item .nights { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
-        .hotel-item .location { font-size: 0.75rem; font-weight: 600; }
-        .hotel-item .days { font-size: 0.65rem; color: #666; }
-        .hotel-item.highlight .days { color: #aaa; }
-        
-        .nav { background: white; padding: 12px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; }
-        .nav-btn { background: var(--light); border: none; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-family: 'Source Sans Pro', sans-serif; font-size: 0.75rem; white-space: nowrap; transition: all 0.3s; }
-        .nav-btn:hover, .nav-btn.active { background: var(--primary); color: white; }
-        .nav-btn.bio { background: linear-gradient(135deg, #1a1a2e, var(--bio)); color: white; }
-        .nav-btn.caribbean { background: var(--accent); color: white; }
-        .nav-btn.has-options { background: linear-gradient(135deg, var(--primary), var(--purple)); color: white; }
-        
-        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
-        .map-section { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
-        #map { height: 400px; width: 100%; }
-        
-        .section-tabs { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
-        .section-tab { background: white; border: 2px solid var(--light); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; }
-        .section-tab:hover { border-color: var(--primary); }
-        .section-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
-        
-        .content-section { display: none; }
-        .content-section.active { display: block; }
-        
-        .day-card { background: white; border-radius: 12px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
-        .day-card.bio { border-left: 4px solid var(--bio); }
-        .day-card.caribbean { border-left: 4px solid var(--accent); }
-        .day-card.has-options { border-left: 4px solid var(--purple); }
-        
-        .day-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .day-card.bio .day-header { background: linear-gradient(135deg, #1a1a2e, #16213e); }
-        .day-card.caribbean .day-header { background: linear-gradient(135deg, var(--accent), #D35400); }
-        .day-card.has-options .day-header { background: linear-gradient(135deg, var(--primary), var(--purple)); }
-        
-        .day-number { font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif; }
-        .day-info h3 { font-size: 1rem; margin-bottom: 2px; }
-        .day-info .date { opacity: 0.9; font-size: 0.85rem; }
-        .day-info .hotel { font-size: 0.75rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 8px; margin-top: 3px; display: inline-block; }
-        
-        .day-toggle { font-size: 1.2rem; transition: transform 0.3s; }
-        .day-card.expanded .day-toggle { transform: rotate(180deg); }
-        .day-content { display: none; padding: 15px; }
-        .day-card.expanded .day-content { display: block; }
-        
-        .timeline { position: relative; padding-left: 20px; }
-        .timeline::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 2px; background: var(--light); }
-        .timeline-item { position: relative; padding-bottom: 12px; }
-        .timeline-item::before { content: ''; position: absolute; left: -18px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--secondary); border: 2px solid white; box-shadow: 0 0 0 2px var(--secondary); }
-        .timeline-item.highlight::before { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
-        .timeline-item.bio::before { background: var(--bio); box-shadow: 0 0 0 2px var(--bio); }
-        .timeline-time { font-weight: 600; color: var(--primary); font-size: 0.8rem; }
-        .timeline-title { font-weight: 600; margin: 2px 0; font-size: 0.9rem; }
-        .timeline-desc { color: #666; font-size: 0.85rem; }
-        
-        .info-box { background: var(--light); border-radius: 8px; padding: 12px; margin: 12px 0; border-left: 3px solid var(--secondary); font-size: 0.9rem; }
-        .info-box.warning { border-left-color: var(--accent); background: #FEF9E7; }
-        .info-box.history { border-left-color: #E74C3C; background: #FDEDEC; }
-        .info-box.bio { border-left-color: var(--bio); background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; }
-        .info-box.bio h4 { color: var(--bio); }
-        .info-box h4 { margin-bottom: 6px; font-size: 0.95rem; }
-        
-        .adventure-choice { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; padding: 15px; margin: 12px 0; color: white; }
-        .adventure-choice h4 { margin-bottom: 10px; font-size: 1rem; }
-        .adventure-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-        .adventure-tab { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 6px 15px; border-radius: 15px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.3s; font-family: 'Source Sans Pro', sans-serif; }
-        .adventure-tab:hover { background: rgba(255,255,255,0.3); }
-        .adventure-tab.active { background: white; color: var(--purple); border-color: white; }
-        .adventure-content { display: none; background: rgba(255,255,255,0.95); border-radius: 8px; padding: 12px; color: var(--dark); font-size: 0.9rem; }
-        .adventure-content.active { display: block; }
-        .adventure-content h5 { color: var(--purple); margin-bottom: 6px; font-size: 0.95rem; }
-        .adventure-content .highlight { background: #F3E5F5; padding: 6px 10px; border-radius: 5px; margin: 6px 0; border-left: 3px solid var(--purple); font-size: 0.85rem; }
-        .adventure-content ul { margin-left: 15px; }
-        .adventure-content li { margin-bottom: 3px; }
-        
-        .accommodation-card { background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; }
-        .accommodation-card h5 { color: var(--primary); margin-bottom: 3px; font-size: 0.95rem; }
-        .accommodation-card .price { font-weight: 700; color: var(--secondary); font-size: 0.9rem; }
-        .accommodation-card .amenities { font-size: 0.8rem; color: #666; margin-top: 5px; }
-        .accommodation-card a { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.85rem; }
-        
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
-        .link-card { background: white; border: 2px solid var(--light); border-radius: 6px; padding: 10px; text-decoration: none; color: var(--dark); transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
-        .link-card:hover { border-color: var(--primary); }
-        .link-card .icon { font-size: 1.2rem; }
-        .link-card h5 { color: var(--primary); font-size: 0.85rem; margin-bottom: 1px; }
-        .link-card p { font-size: 0.75rem; color: #666; }
-        
-        footer { background: var(--dark); color: white; padding: 25px 15px; text-align: center; margin-top: 30px; }
-        footer h2 { color: var(--secondary); margin-bottom: 5px; font-size: 1.5rem; }
-        
+        :root {
+            --primary: #1B4F72;
+            --secondary: #27AE60;
+            --accent: #E67E22;
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --purple: #9B59B6;
+            --bio: #00CED1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .hero .route {
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        .flight-info {
+            background: white;
+            max-width: 700px;
+            margin: -25px auto 20px;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 10;
+        }
+
+        .flight-box {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flight-detail {
+            text-align: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .flight-detail .label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .flight-detail .flight-num {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .flight-detail .datetime {
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        .flight-detail.arrive {
+            border-left: 4px solid var(--secondary);
+        }
+
+        .flight-detail.depart {
+            border-left: 4px solid var(--accent);
+        }
+
+        .optimization-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .optimization-banner h3 {
+            color: var(--bio);
+            margin-bottom: 8px;
+        }
+
+        .moon-visual {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .hotel-summary {
+            background: white;
+            max-width: 1000px;
+            margin: 0 auto 25px;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hotel-summary h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+
+        .hotel-item {
+            text-align: center;
+            padding: 12px 5px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .hotel-item.highlight {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+
+        .hotel-item.highlight .nights {
+            color: var(--bio);
+        }
+
+        .hotel-item .nights {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .hotel-item .location {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .hotel-item .days {
+            font-size: 0.65rem;
+            color: #666;
+        }
+
+        .hotel-item.highlight .days {
+            color: #aaa;
+        }
+
+        .nav {
+            background: white;
+            padding: 12px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .nav-btn {
+            background: var(--light);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-btn.bio {
+            background: linear-gradient(135deg, #1a1a2e, var(--bio));
+            color: white;
+        }
+
+        .nav-btn.caribbean {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-btn.has-options {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        .map-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .section-tab {
+            background: white;
+            border: 2px solid var(--light);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .section-tab:hover {
+            border-color: var(--primary);
+        }
+
+        .section-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .day-card.bio {
+            border-left: 4px solid var(--bio);
+        }
+
+        .day-card.caribbean {
+            border-left: 4px solid var(--accent);
+        }
+
+        .day-card.has-options {
+            border-left: 4px solid var(--purple);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .day-card.bio .day-header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        .day-card.caribbean .day-header {
+            background: linear-gradient(135deg, var(--accent), #D35400);
+        }
+
+        .day-card.has-options .day-header {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+        }
+
+        .day-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .day-info h3 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .day-info .date {
+            opacity: 0.9;
+            font-size: 0.85rem;
+        }
+
+        .day-info .hotel {
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 8px;
+            margin-top: 3px;
+            display: inline-block;
+        }
+
+        .day-toggle {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .day-card.expanded .day-toggle {
+            transform: rotate(180deg);
+        }
+
+        .day-content {
+            display: none;
+            padding: 15px;
+        }
+
+        .day-card.expanded .day-content {
+            display: block;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--secondary);
+        }
+
+        .timeline-item.highlight::before {
+            background: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        .timeline-item.bio::before {
+            background: var(--bio);
+            box-shadow: 0 0 0 2px var(--bio);
+        }
+
+        .timeline-time {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin: 2px 0;
+            font-size: 0.9rem;
+        }
+
+        .timeline-desc {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .info-box {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border-left: 3px solid var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-box.warning {
+            border-left-color: var(--accent);
+            background: #FEF9E7;
+        }
+
+        .info-box.history {
+            border-left-color: #E74C3C;
+            background: #FDEDEC;
+        }
+
+        .info-box.bio {
+            border-left-color: var(--bio);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+
+        .info-box.bio h4 {
+            color: var(--bio);
+        }
+
+        .info-box h4 {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .adventure-choice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 12px 0;
+            color: white;
+        }
+
+        .adventure-choice h4 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .adventure-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .adventure-tab {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .adventure-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .adventure-tab.active {
+            background: white;
+            color: var(--purple);
+            border-color: white;
+        }
+
+        .adventure-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .adventure-content.active {
+            display: block;
+        }
+
+        .adventure-content h5 {
+            color: var(--purple);
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .adventure-content .highlight {
+            background: #F3E5F5;
+            padding: 6px 10px;
+            border-radius: 5px;
+            margin: 6px 0;
+            border-left: 3px solid var(--purple);
+            font-size: 0.85rem;
+        }
+
+        .adventure-content ul {
+            margin-left: 15px;
+        }
+
+        .adventure-content li {
+            margin-bottom: 3px;
+        }
+
+        .accommodation-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        .accommodation-card h5 {
+            color: var(--primary);
+            margin-bottom: 3px;
+            font-size: 0.95rem;
+        }
+
+        .accommodation-card .price {
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .accommodation-card .amenities {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .accommodation-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .link-card {
+            background: white;
+            border: 2px solid var(--light);
+            border-radius: 6px;
+            padding: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .link-card:hover {
+            border-color: var(--primary);
+        }
+
+        .link-card .icon {
+            font-size: 1.2rem;
+        }
+
+        .link-card h5 {
+            color: var(--primary);
+            font-size: 0.85rem;
+            margin-bottom: 1px;
+        }
+
+        .link-card p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 25px 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        footer h2 {
+            color: var(--secondary);
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+        }
+
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hotel-grid { grid-template-columns: repeat(3, 1fr); }
-            .flight-box { flex-direction: column; }
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hotel-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .flight-box {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
     <header class="hero">
         <h1>🇨🇷 Costa Rica</h1>
         <p class="subtitle">6-Hotel Complete Adventure</p>
         <div class="route">February 22 - March 12, 2026 • 19 Days</div>
     </header>
-    
+
     <div class="flight-info">
         <div class="flight-box">
             <div class="flight-detail arrive">
@@ -159,19 +688,19 @@
             </div>
         </div>
     </div>
-    
+
     <div class="optimization-banner">
         <h3>✨ BIOLUMINESCENCE ON DAY 2 ✨</h3>
         <p>Arrive Day 1, settle in at resort, Bio tour Day 2 evening</p>
         <div class="moon-visual">🌒 Feb 23: ~25-30% Moon = Excellent Conditions!</div>
     </div>
-    
+
     <div class="hotel-summary">
         <h3>🏨 Your 6 Hotels - Complete Loop</h3>
         <div class="hotel-grid">
             <div class="hotel-item highlight">
                 <div class="nights">2</div>
-                <div class="location">Tambor ✨</div>
+                <div class="location">Playa Naranjo ✨</div>
                 <div class="days">Feb 22-23</div>
             </div>
             <div class="hotel-item">
@@ -201,10 +730,10 @@
             </div>
         </div>
         <p style="text-align: center; margin-top: 12px; font-size: 0.85rem; color: #666;">
-            Loop: LIR → Tambor (no ferry) → Ferry out → Pacific → Caribbean → Central → Arenal → Monteverde → LIR
+            Loop: LIR → Playa Naranjo (no ferry) → Ferry out → Pacific → Caribbean → Central → Arenal → Monteverde → LIR
         </p>
     </div>
-    
+
     <nav class="nav">
         <div class="nav-inner">
             <button class="nav-btn active" onclick="scrollToDay(0)">Overview</button>
@@ -229,29 +758,29 @@
             <button class="nav-btn" onclick="scrollToDay(19)">Day 19</button>
         </div>
     </nav>
-    
+
     <main class="container">
         <section class="map-section">
             <div id="map"></div>
         </section>
-        
+
         <div class="section-tabs">
             <button class="section-tab active" onclick="showSection('itinerary')">📅 Itinerary</button>
             <button class="section-tab" onclick="showSection('hotels')">🏨 Hotels</button>
             <button class="section-tab" onclick="showSection('budget')">💰 Budget</button>
         </div>
-        
+
         <section id="itinerary" class="content-section active">
-            
+
             <!-- DAY 1 -->
             <div class="day-card expanded" id="day-1">
                 <div class="day-header" onclick="toggleDay(this)">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div class="day-number">1</div>
                         <div class="day-info">
-                            <h3>✈️ Arrive Liberia → Scenic Drive → Tambor</h3>
+                            <h3>✈️ Arrive Liberia → Scenic Drive → Playa Naranjo</h3>
                             <div class="date">Sunday, February 22, 2026</div>
-                            <div class="hotel">🏨 Tambor Resort (1 of 2)</div>
+                            <div class="hotel">🏨 Opacifico Hotel (1 of 2)</div>
                         </div>
                     </div>
                     <div class="day-toggle">▼</div>
@@ -259,9 +788,10 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🛫 Flight WS2260 - Arrives 7:00 AM</h4>
-                        <p>No ferry today! Scenic drive around the Nicoya Peninsula with stops along the way. Arrive at resort by late afternoon to settle in before tomorrow's bioluminescence.</p>
+                        <p>No ferry today! Scenic drive around the Nicoya Peninsula with stops along the way. Arrive at
+                            resort by late afternoon to settle in before tomorrow's bioluminescence.</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">7:00 AM</div>
@@ -276,7 +806,8 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">9:30 AM</div>
                             <div class="timeline-title">Llanos de Cortés Waterfall</div>
-                            <div class="timeline-desc">30 min from Liberia - stunning wide waterfall, swimming possible</div>
+                            <div class="timeline-desc">30 min from Liberia - stunning wide waterfall, swimming possible
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">11:30 AM</div>
@@ -290,13 +821,13 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">2:30-4:30 PM</div>
-                            <div class="timeline-title">Continue to Tambor</div>
-                            <div class="timeline-desc">Scenic coastal route</div>
+                            <div class="timeline-title">Continue to Playa Naranjo</div>
+                            <div class="timeline-desc">Scenic coastal route via Nicoya</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">5:00 PM</div>
-                            <div class="timeline-title">Arrive at Tango Mar Resort</div>
-                            <div class="timeline-desc">Check in, explore resort amenities, relax</div>
+                            <div class="timeline-title">Arrive at Opacifico Hotel Boutique</div>
+                            <div class="timeline-desc">Check in, explore boutique hotel, relax</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">Evening</div>
@@ -304,22 +835,24 @@
                             <div class="timeline-desc">Rest up for bioluminescence tomorrow!</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box warning">
                         <h4>🚗 Driving Note</h4>
-                        <p>Total drive time: ~4.5-5 hours. With stops, plan for 7-8 hours total. The scenic route avoids the ferry and lets you explore the Nicoya Peninsula!</p>
+                        <p>Total drive time: ~4.5-5 hours. With stops, plan for 7-8 hours total. The scenic route avoids
+                            the ferry and lets you explore the Nicoya Peninsula!</p>
                     </div>
-                    
+
                     <div class="accommodation-card">
-                        <h5>Tango Mar Beachfront Resort</h5>
-                        <div class="price">CAD $250-400/night</div>
-                        <div class="amenities">🏊 Pool • 🏖️ Private beach • 🏌️ Golf course • 🧘 Spa • 🎾 Tennis • 🍽️ Restaurant</div>
-                        <p style="margin-top: 8px;">Luxury beachfront resort near Tambor, 20 min from bioluminescence bay</p>
-                        <a href="https://www.tangomar.com" target="_blank">Book →</a>
+                        <h5>Opacifico Hotel Boutique</h5>
+                        <div class="price">CAD $180-280/night</div>
+                        <div class="amenities">🏊 Pool • 🏖️ Beach access • 🍽️ Restaurant • ✨ On-site bio tours</div>
+                        <p style="margin-top: 8px;">Boutique hotel in Playa Naranjo, Gulf of Nicoya "blue zone" - offers
+                            their own bioluminescence tours!</p>
+                        <a href="https://www.opacificohotel.com" target="_blank">Book →</a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 2 - BIOLUMINESCENCE -->
             <div class="day-card bio" id="day-2">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -328,7 +861,7 @@
                         <div class="day-info">
                             <h3>✨ Resort Day → BIOLUMINESCENCE!</h3>
                             <div class="date">Monday, February 23, 2026</div>
-                            <div class="hotel">🏨 Tambor Resort (2 of 2) • 🌒 ~25% Moon</div>
+                            <div class="hotel">🏨 Opacifico Hotel (2 of 2) • 🌒 ~25% Moon</div>
                         </div>
                     </div>
                     <div class="day-toggle">▼</div>
@@ -336,9 +869,10 @@
                 <div class="day-content">
                     <div class="info-box bio">
                         <h4>✨ EXCELLENT BIOLUMINESCENCE CONDITIONS!</h4>
-                        <p>~25-30% moon = great darkness for glowing water. Every paddle stroke creates light trails. You can swim and your body will be outlined in blue light!</p>
+                        <p>~25-30% moon = great darkness for glowing water. Every paddle stroke creates light trails.
+                            You can swim and your body will be outlined in blue light!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">Morning</div>
@@ -356,8 +890,8 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">2:00-5:00 PM</div>
-                            <div class="timeline-title">More relaxation OR explore Tambor</div>
-                            <div class="timeline-desc">Beach walk, small waterfall nearby, fishing village</div>
+                            <div class="timeline-title">More relaxation OR explore Playa Naranjo</div>
+                            <div class="timeline-desc">Beach walk, explore the "blue zone" region</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">5:30 PM</div>
@@ -367,24 +901,29 @@
                         <div class="timeline-item bio">
                             <div class="timeline-time">6:30-9:30 PM</div>
                             <div class="timeline-title">🌟 BIOLUMINESCENT KAYAK TOUR 🌟</div>
-                            <div class="timeline-desc">Punta Cuchillos bay • Paddle through glowing water • Swimming in light!</div>
+                            <div class="timeline-desc">Punta Cuchillos bay • Paddle through glowing water • Swimming in
+                                light!</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box">
                         <h4>💡 What Causes the Glow?</h4>
-                        <p>Dinoflagellates - microscopic plankton that emit blue-green light when disturbed. The Gulf of Nicoya is one of the world's most reliable locations for this phenomenon.</p>
+                        <p>Dinoflagellates - microscopic plankton that emit blue-green light when disturbed. The Gulf of
+                            Nicoya is one of the world's most reliable locations for this phenomenon.</p>
                     </div>
-                    
+
                     <div class="links-grid">
-                        <a href="https://www.bahiarica.com" target="_blank" class="link-card">
+                        <a href="https://www.opacificohotel.com" target="_blank" class="link-card">
                             <div class="icon">✨</div>
-                            <div><h5>Bahia Rica Bio Tours</h5><p>~$36 USD per person</p></div>
+                            <div>
+                                <h5>Opacifico Hotel Bio Tour</h5>
+                                <p>Hotel arranges tours with beach picnic</p>
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 3 -->
             <div class="day-card" id="day-3">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -401,9 +940,10 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🚢 Ferry Day - Crossing to Mainland</h4>
-                        <p>Take the ferry from Paquera to Puntarenas, then drive south to Manuel Antonio. Much faster than driving around!</p>
+                        <p>Take the ferry from Paquera to Puntarenas, then drive south to Manuel Antonio. Much faster
+                            than driving around!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">8:00 AM</div>
@@ -412,7 +952,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">9:30 AM</div>
                             <div class="timeline-title">Drive to Paquera ferry terminal</div>
-                            <div class="timeline-desc">~30 min from Tambor</div>
+                            <div class="timeline-desc">~20 min from Playa Naranjo</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">10:30 AM</div>
@@ -430,17 +970,18 @@
                             <div class="timeline-desc">Pool or beach with a drink</div>
                         </div>
                     </div>
-                    
+
                     <div class="accommodation-card">
                         <h5>Arenas del Mar</h5>
                         <div class="price">CAD $450-650/night</div>
-                        <div class="amenities">🏖️ Two private beaches • 🏊 Infinity pools • 🌿 Nature reserve • 🍽️ Farm-to-table</div>
+                        <div class="amenities">🏖️ Two private beaches • 🏊 Infinity pools • 🌿 Nature reserve • 🍽️
+                            Farm-to-table</div>
                         <p style="margin-top: 8px;">Best location in Manuel Antonio, exceptional sustainability</p>
                         <a href="https://www.arenasdelmar.com" target="_blank">Book →</a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 4 -->
             <div class="day-card" id="day-4">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -459,7 +1000,8 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">7:00-11:00 AM</div>
                             <div class="timeline-title">Manuel Antonio National Park</div>
-                            <div class="timeline-desc">Arrive at opening • Hire guide with scope • Sloths, capuchins, squirrel monkeys</div>
+                            <div class="timeline-desc">Arrive at opening • Hire guide with scope • Sloths, capuchins,
+                                squirrel monkeys</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">11:30 AM</div>
@@ -477,16 +1019,19 @@
                             <div class="timeline-desc">Restaurant built around 1954 CIA cargo plane</div>
                         </div>
                     </div>
-                    
+
                     <div class="links-grid">
                         <a href="https://www.planetdolphin.com" target="_blank" class="link-card">
                             <div class="icon">🐋</div>
-                            <div><h5>Planet Dolphin</h5><p>~$85 USD whale watching</p></div>
+                            <div>
+                                <h5>Planet Dolphin</h5>
+                                <p>~$85 USD whale watching</p>
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 5 - CHOOSE -->
             <div class="day-card has-options" id="day-5">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -504,23 +1049,25 @@
                     <div class="adventure-choice">
                         <h4>🎯 Choose Your Adventure</h4>
                         <div class="adventure-tabs">
-                            <button class="adventure-tab active" onclick="showAdventure(this, 'day5-a')">A: Uvita Whale's Tail</button>
+                            <button class="adventure-tab active" onclick="showAdventure(this, 'day5-a')">A: Uvita
+                                Whale's Tail</button>
                             <button class="adventure-tab" onclick="showAdventure(this, 'day5-b')">B: Rest Day</button>
                         </div>
-                        
+
                         <div id="day5-a" class="adventure-content active">
                             <h5>Option A: Uvita Whale's Tail Day Trip</h5>
                             <div class="highlight">Best for: Iconic sandbar photo, exploring south</div>
                             <ul>
                                 <li><strong>8:00 AM:</strong> Drive to Uvita (1 hr south)</li>
-                                <li><strong>9:00 AM - 12:00 PM:</strong> Marino Ballena NP - Whale's Tail sandbar at low tide</li>
+                                <li><strong>9:00 AM - 12:00 PM:</strong> Marino Ballena NP - Whale's Tail sandbar at low
+                                    tide</li>
                                 <li>Check tide tables in advance!</li>
                                 <li><strong>Lunch:</strong> Fresh seafood in Uvita</li>
                                 <li><strong>Afternoon:</strong> Beach or Nauyaca Waterfall</li>
                                 <li><strong>4:00 PM:</strong> Return to Manuel Antonio</li>
                             </ul>
                         </div>
-                        
+
                         <div id="day5-b" class="adventure-content">
                             <h5>Option B: Rest Day at Manuel Antonio</h5>
                             <div class="highlight">Best for: Recharging before big transfer tomorrow</div>
@@ -535,7 +1082,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 6 - CARIBBEAN -->
             <div class="day-card caribbean" id="day-6">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -552,9 +1099,10 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🏺 UNESCO World Heritage Site En Route!</h4>
-                        <p>Finca 6 Stone Spheres breaks up the long drive. Mysterious Diquís spheres up to 2m diameter, purpose unknown.</p>
+                        <p>Finca 6 Stone Spheres breaks up the long drive. Mysterious Diquís spheres up to 2m diameter,
+                            purpose unknown.</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">7:00 AM</div>
@@ -580,12 +1128,13 @@
                             <div class="timeline-desc">Rice & beans with coconut milk for dinner</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box history">
                         <h4>⚠️ El Diquís Dam Controversy</h4>
-                        <p>Proposed hydroelectric project threatens 7 indigenous territories. The Bribri you may meet on Day 8 actively oppose it.</p>
+                        <p>Proposed hydroelectric project threatens 7 indigenous territories. The Bribri you may meet on
+                            Day 8 actively oppose it.</p>
                     </div>
-                    
+
                     <div class="accommodation-card">
                         <h5>Le Caméléon Boutique Hotel</h5>
                         <div class="price">CAD $200-300/night</div>
@@ -595,7 +1144,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 7 -->
             <div class="day-card caribbean" id="day-7">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -613,15 +1162,17 @@
                     <div class="info-box history">
                         <h4>🏛️ Afro-Caribbean History</h4>
                         <p><strong>1870s:</strong> Jamaican workers built the railroad<br>
-                        <strong>1935:</strong> Barred from the Pacific coast by law<br>
-                        <strong>1948:</strong> Finally granted citizenship</p>
+                            <strong>1935:</strong> Barred from the Pacific coast by law<br>
+                            <strong>1948:</strong> Finally granted citizenship
+                        </p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item highlight">
                             <div class="timeline-time">7:00-11:00 AM</div>
                             <div class="timeline-title">Cahuita National Park</div>
-                            <div class="timeline-desc">Free entry (community agreement!) • Coral reef snorkeling • Wildlife trails</div>
+                            <div class="timeline-desc">Free entry (community agreement!) • Coral reef snorkeling •
+                                Wildlife trails</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">12:00 PM</div>
@@ -639,16 +1190,17 @@
                             <div class="timeline-desc">Caribbean nights are lively!</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box">
                         <h4>🍽️ Caribbean Cuisine - Different from Pacific!</h4>
                         <p><strong>Rice & Beans</strong> - NOT gallo pinto! Cooked with coconut milk & thyme<br>
-                        <strong>Rondón</strong> - Seafood coconut stew<br>
-                        <strong>Patí</strong> - Spicy meat pastries (Jamaican patty origin)</p>
+                            <strong>Rondón</strong> - Seafood coconut stew<br>
+                            <strong>Patí</strong> - Spicy meat pastries (Jamaican patty origin)
+                        </p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 8 - CHOOSE -->
             <div class="day-card caribbean has-options" id="day-8">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -666,11 +1218,12 @@
                     <div class="adventure-choice">
                         <h4>🎯 Choose Your Adventure</h4>
                         <div class="adventure-tabs">
-                            <button class="adventure-tab active" onclick="showAdventure(this, 'day8-a')">A: Bribri Community</button>
+                            <button class="adventure-tab active" onclick="showAdventure(this, 'day8-a')">A: Bribri
+                                Community</button>
                             <button class="adventure-tab" onclick="showAdventure(this, 'day8-b')">B: Tortuguero</button>
                             <button class="adventure-tab" onclick="showAdventure(this, 'day8-c')">C: Beach Day</button>
                         </div>
-                        
+
                         <div id="day8-a" class="adventure-content active">
                             <h5>Option A: Bribri Indigenous Community</h5>
                             <div class="highlight">Best for: Deepest cultural immersion, cacao ceremony</div>
@@ -678,12 +1231,14 @@
                                 <li>Costa Rica's largest indigenous group - MATRILINEAL society</li>
                                 <li>Only women inherit land, only women prepare sacred cacao</li>
                                 <li><strong>7:30 AM:</strong> Depart for Bribri territory</li>
-                                <li><strong>8:30 AM - 3:00 PM:</strong> Canoe up Yorkín River, cacao ceremony, lunch, medicinal plant walk</li>
+                                <li><strong>8:30 AM - 3:00 PM:</strong> Canoe up Yorkín River, cacao ceremony, lunch,
+                                    medicinal plant walk</li>
                                 <li><strong>4:00 PM:</strong> Return</li>
                             </ul>
-                            <p><a href="https://www.stibrawpa.org" target="_blank">Stibrawpa Women's Association →</a></p>
+                            <p><a href="https://www.stibrawpa.org" target="_blank">Stibrawpa Women's Association →</a>
+                            </p>
                         </div>
-                        
+
                         <div id="day8-b" class="adventure-content">
                             <h5>Option B: Tortuguero Day Trip</h5>
                             <div class="highlight">Best for: Wildlife photography, canal safari</div>
@@ -695,7 +1250,7 @@
                                 <li><strong>4:00 PM:</strong> Return</li>
                             </ul>
                         </div>
-                        
+
                         <div id="day8-c" class="adventure-content">
                             <h5>Option C: Puerto Viejo Beach Day</h5>
                             <div class="highlight">Best for: Relaxation, beach photography</div>
@@ -709,7 +1264,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 9 -->
             <div class="day-card caribbean" id="day-9">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -728,7 +1283,7 @@
                         <h4>🎯 Catch-Up Day</h4>
                         <p>Do whatever you missed on Day 8, or just enjoy the Caribbean vibe!</p>
                     </div>
-                    
+
                     <p style="margin: 15px 0;"><strong>Options:</strong></p>
                     <ul style="margin-left: 20px;">
                         <li>Bribri community (if skipped Day 8)</li>
@@ -741,7 +1296,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <!-- DAY 10 -->
             <div class="day-card" id="day-10">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -774,15 +1329,17 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">2:00-5:00 PM</div>
                             <div class="timeline-title">CATIE Botanical Gardens</div>
-                            <div class="timeline-desc">2,500+ plant species • Tropical agriculture research • Birdwatching lake</div>
+                            <div class="timeline-desc">2,500+ plant species • Tropical agriculture research •
+                                Birdwatching lake</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box">
                         <h4>🌱 Why CATIE?</h4>
-                        <p>World-renowned tropical agriculture research center. One of the largest collections of tropical plants in the world, plus excellent birding around the lake.</p>
+                        <p>World-renowned tropical agriculture research center. One of the largest collections of
+                            tropical plants in the world, plus excellent birding around the lake.</p>
                     </div>
-                    
+
                     <div class="accommodation-card">
                         <h5>Casa Turire</h5>
                         <div class="price">CAD $250-350/night</div>
@@ -792,7 +1349,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 11 -->
             <div class="day-card" id="day-11">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -809,14 +1366,16 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🏺 UNESCO Tentative List Site</h4>
-                        <p>Costa Rica's most significant pre-Columbian site. 3,000-year-old aqueducts that still work!</p>
+                        <p>Costa Rica's most significant pre-Columbian site. 3,000-year-old aqueducts that still work!
+                        </p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item highlight">
                             <div class="timeline-time">7:30 AM - 12:00 PM</div>
                             <div class="timeline-title">Guayabo National Monument</div>
-                            <div class="timeline-desc">Stone causeways • Circular foundations • Working aqueducts • Petroglyphs</div>
+                            <div class="timeline-desc">Stone causeways • Circular foundations • Working aqueducts •
+                                Petroglyphs</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">Afternoon</div>
@@ -824,14 +1383,15 @@
                             <div class="timeline-desc">Save energy for Pacuare tomorrow!</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box history">
                         <h4>🏛️ Historical Significance</h4>
-                        <p>Inhabited 1000 BCE - 1400 CE. The engineering sophistication suggests a complex society. Connection to the Diquís stone sphere culture is debated.</p>
+                        <p>Inhabited 1000 BCE - 1400 CE. The engineering sophistication suggests a complex society.
+                            Connection to the Diquís stone sphere culture is debated.</p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 12 -->
             <div class="day-card" id="day-12">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -848,9 +1408,10 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🚣 World's Top 5 Rafting Rivers!</h4>
-                        <p>18 miles through pristine canyon. Class III-IV. Turrialba is the closest base - shortest transfer!</p>
+                        <p>18 miles through pristine canyon. Class III-IV. Turrialba is the closest base - shortest
+                            transfer!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">6:00 AM</div>
@@ -860,7 +1421,8 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">8:00 AM - 2:30 PM</div>
                             <div class="timeline-title">Full-day Pacuare rafting</div>
-                            <div class="timeline-desc">Canyon waterfalls • Wildlife from raft • Riverside lunch included</div>
+                            <div class="timeline-desc">Canyon waterfalls • Wildlife from raft • Riverside lunch included
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">4:00 PM</div>
@@ -868,20 +1430,26 @@
                             <div class="timeline-desc">Dinner, rest those muscles!</div>
                         </div>
                     </div>
-                    
+
                     <div class="links-grid">
                         <a href="https://www.riostropicales.com" target="_blank" class="link-card">
                             <div class="icon">🚣</div>
-                            <div><h5>Ríos Tropicales</h5><p>~$99 USD</p></div>
+                            <div>
+                                <h5>Ríos Tropicales</h5>
+                                <p>~$99 USD</p>
+                            </div>
                         </a>
                         <a href="https://www.exploradoresoutdoors.com" target="_blank" class="link-card">
                             <div class="icon">🚣</div>
-                            <div><h5>Exploradores Outdoors</h5><p>~$99 USD</p></div>
+                            <div>
+                                <h5>Exploradores Outdoors</h5>
+                                <p>~$99 USD</p>
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 13 -->
             <div class="day-card" id="day-13">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -900,7 +1468,7 @@
                         <h4>🏛️ Cultural Stop En Route</h4>
                         <p>San José is between Turrialba and Arenal - perfect for a museum visit!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">7:30 AM</div>
@@ -910,7 +1478,8 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">9:00 AM - 12:00 PM</div>
                             <div class="timeline-title">San José Museums</div>
-                            <div class="timeline-desc">National Theater (1897) • Pre-Columbian Gold Museum (1,600+ artifacts)</div>
+                            <div class="timeline-desc">National Theater (1897) • Pre-Columbian Gold Museum (1,600+
+                                artifacts)</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">12:30 PM</div>
@@ -928,12 +1497,13 @@
                             <div class="timeline-desc">Tabacón (luxury), Ecotermales (intimate), or free El Cholín</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box history">
                         <h4>🏛️ Historical Connection</h4>
-                        <p>The Gold Museum artifacts were made by the same Diquís culture whose stone spheres you saw on Day 6!</p>
+                        <p>The Gold Museum artifacts were made by the same Diquís culture whose stone spheres you saw on
+                            Day 6!</p>
                     </div>
-                    
+
                     <div class="accommodation-card">
                         <h5>Arenal Observatory Lodge</h5>
                         <div class="price">CAD $180-250/night</div>
@@ -943,7 +1513,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 14 - CHOOSE -->
             <div class="day-card has-options" id="day-14">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -961,10 +1531,12 @@
                     <div class="adventure-choice">
                         <h4>🎯 Choose Your Adventure</h4>
                         <div class="adventure-tabs">
-                            <button class="adventure-tab active" onclick="showAdventure(this, 'day14-a')">A: Maleku + Volcano</button>
-                            <button class="adventure-tab" onclick="showAdventure(this, 'day14-b')">B: Río Celeste</button>
+                            <button class="adventure-tab active" onclick="showAdventure(this, 'day14-a')">A: Maleku +
+                                Volcano</button>
+                            <button class="adventure-tab" onclick="showAdventure(this, 'day14-b')">B: Río
+                                Celeste</button>
                         </div>
-                        
+
                         <div id="day14-a" class="adventure-content active">
                             <h5>Option A: Maleku Community + Arenal Volcano</h5>
                             <div class="highlight">Best for: Cultural immersion + volcano landscapes</div>
@@ -977,7 +1549,7 @@
                                 <li><strong>Evening:</strong> Hot springs!</li>
                             </ul>
                         </div>
-                        
+
                         <div id="day14-b" class="adventure-content">
                             <h5>Option B: Río Celeste Blue River</h5>
                             <div class="highlight">Best for: Photographers, Maleku sacred geography</div>
@@ -992,7 +1564,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 15 -->
             <div class="day-card" id="day-15">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -1011,7 +1583,7 @@
                         <h4>📍 Day Trip - Return to Arenal</h4>
                         <p>La Selva & Tirimbina are 10 min apart, 2 hrs from Arenal. Full rainforest immersion!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">5:30 AM</div>
@@ -1041,7 +1613,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 16 -->
             <div class="day-card" id="day-16">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -1060,7 +1632,7 @@
                         <h4>🚤 Scenic Transfer!</h4>
                         <p>The famous jeep-boat-jeep crosses Lake Arenal with volcano views!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">8:00 AM</div>
@@ -1086,7 +1658,7 @@
                             <div class="timeline-desc">Tarantulas, sleeping birds, kinkajous</div>
                         </div>
                     </div>
-                    
+
                     <div class="accommodation-card">
                         <h5>Hotel Belmar</h5>
                         <div class="price">CAD $280-400/night</div>
@@ -1096,7 +1668,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 17 -->
             <div class="day-card" id="day-17">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -1113,14 +1685,16 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🦜 Still Quetzal Season!</h4>
-                        <p>Early March is excellent for resplendent quetzals. Males still displaying 2-foot iridescent tails. BOOK GUIDE IN ADVANCE!</p>
+                        <p>Early March is excellent for resplendent quetzals. Males still displaying 2-foot iridescent
+                            tails. BOOK GUIDE IN ADVANCE!</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item highlight">
                             <div class="timeline-time">5:30-9:00 AM</div>
                             <div class="timeline-title">Guided Quetzal Tour</div>
-                            <div class="timeline-desc">Monteverde Cloud Forest Reserve • Three-wattled Bellbird too</div>
+                            <div class="timeline-desc">Monteverde Cloud Forest Reserve • Three-wattled Bellbird too
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">9:30 AM</div>
@@ -1140,7 +1714,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- DAY 18 -->
             <div class="day-card" id="day-18">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -1159,7 +1733,7 @@
                         <h4>🎉 Bonus Day in Monteverde!</h4>
                         <p>Extra time to explore, relax, or catch anything you missed.</p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item highlight">
                             <div class="timeline-time">8:00-10:30 AM</div>
@@ -1174,7 +1748,8 @@
                         <div class="timeline-item">
                             <div class="timeline-time">Afternoon</div>
                             <div class="timeline-title">Flexible</div>
-                            <div class="timeline-desc">Second quetzal attempt, more reserves, hanging bridges, or spa</div>
+                            <div class="timeline-desc">Second quetzal attempt, more reserves, hanging bridges, or spa
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">Evening</div>
@@ -1182,7 +1757,7 @@
                             <div class="timeline-desc">Farm-to-table at Hotel Belmar</div>
                         </div>
                     </div>
-                    
+
                     <p style="margin-top: 15px;"><strong>Other options for today:</strong></p>
                     <ul style="margin-left: 20px;">
                         <li>Curi-Cancha Reserve (less crowded, excellent birds)</li>
@@ -1193,7 +1768,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <!-- DAY 19 -->
             <div class="day-card" id="day-19">
                 <div class="day-header" onclick="toggleDay(this)">
@@ -1210,9 +1785,10 @@
                 <div class="day-content">
                     <div class="info-box warning">
                         <h4>✈️ Flight WS3566 - Departs 5:20 PM</h4>
-                        <p>Monteverde → Liberia is 2.5 hours. Leave by noon to arrive ~2:30 PM for your 5:20 PM flight.</p>
+                        <p>Monteverde → Liberia is 2.5 hours. Leave by noon to arrive ~2:30 PM for your 5:20 PM flight.
+                        </p>
                     </div>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">8:00 AM</div>
@@ -1244,106 +1820,145 @@
                             <div class="timeline-desc">¡Hasta luego, Costa Rica!</div>
                         </div>
                     </div>
-                    
+
                     <div class="info-box">
                         <h4>🔄 Your Complete Adventure!</h4>
-                        <p>✨ Bioluminescence • 🐒 Manuel Antonio • 🏺 Stone Spheres • 🌴 Caribbean • 🏛️ Bribri • 🚣 Pacuare • 🦜 Quetzal • 🌋 Arenal • ☕ Coffee... and so many memories!</p>
+                        <p>✨ Bioluminescence • 🐒 Manuel Antonio • 🏺 Stone Spheres • 🌴 Caribbean • 🏛️ Bribri • 🚣
+                            Pacuare • 🦜 Quetzal • 🌋 Arenal • ☕ Coffee... and so many memories!</p>
                     </div>
                 </div>
             </div>
-            
+
         </section>
-        
+
         <!-- HOTELS SECTION -->
         <section id="hotels" class="content-section">
             <h2 style="margin-bottom: 15px;">Your 6 Hotels</h2>
-            
+
             <div class="links-grid">
-                <a href="https://www.tangomar.com" class="link-card" target="_blank">
-                    <div><h5>1. Tango Mar (Tambor) ✨</h5><p>2 nights • $250-400 • Bio nearby!</p></div>
+                <a href="https://www.opacificohotel.com" class="link-card" target="_blank">
+                    <div>
+                        <h5>1. Opacifico (Playa Naranjo) ✨</h5>
+                        <p>2 nights • $180-280 • On-site bio tours!</p>
+                    </div>
                 </a>
                 <a href="https://www.arenasdelmar.com" class="link-card" target="_blank">
-                    <div><h5>2. Arenas del Mar (Manuel Antonio)</h5><p>3 nights • $450-650</p></div>
+                    <div>
+                        <h5>2. Arenas del Mar (Manuel Antonio)</h5>
+                        <p>3 nights • $450-650</p>
+                    </div>
                 </a>
                 <a href="https://www.lecameleonhotel.com" class="link-card" target="_blank">
-                    <div><h5>3. Le Caméléon (Caribbean)</h5><p>4 nights • $200-300</p></div>
+                    <div>
+                        <h5>3. Le Caméléon (Caribbean)</h5>
+                        <p>4 nights • $200-300</p>
+                    </div>
                 </a>
                 <a href="https://www.hotelcasaturire.com" class="link-card" target="_blank">
-                    <div><h5>4. Casa Turire (Turrialba)</h5><p>3 nights • $250-350</p></div>
+                    <div>
+                        <h5>4. Casa Turire (Turrialba)</h5>
+                        <p>3 nights • $250-350</p>
+                    </div>
                 </a>
                 <a href="https://www.arenalobservatorylodge.com" class="link-card" target="_blank">
-                    <div><h5>5. Observatory Lodge (Arenal)</h5><p>3 nights • $180-250</p></div>
+                    <div>
+                        <h5>5. Observatory Lodge (Arenal)</h5>
+                        <p>3 nights • $180-250</p>
+                    </div>
                 </a>
                 <a href="https://www.hotelbelmar.net" class="link-card" target="_blank">
-                    <div><h5>6. Hotel Belmar (Monteverde)</h5><p>3 nights • $280-400</p></div>
+                    <div>
+                        <h5>6. Hotel Belmar (Monteverde)</h5>
+                        <p>3 nights • $280-400</p>
+                    </div>
                 </a>
             </div>
         </section>
-        
+
         <!-- BUDGET SECTION -->
         <section id="budget" class="content-section">
             <h2 style="margin-bottom: 15px;">Budget (CAD, 2 people)</h2>
-            
+
             <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
                 <tr style="background: var(--primary); color: white;">
                     <th style="padding: 10px; text-align: left;">Category</th>
                     <th style="padding: 10px; text-align: right;">Estimate</th>
                 </tr>
-                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Flights (WS2260 / WS3566)</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">BOOKED ✓</td></tr>
-                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">6 Hotels (18 nights)</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$5,000-7,500</td></tr>
-                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Rental Car (19 days, 4WD)</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,300-1,700</td></tr>
-                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Tours & Activities</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td></tr>
-                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Meals</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td></tr>
-                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Fuel, Parks, Ferry, Misc</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$700-1,000</td></tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">Flights (WS2260 / WS3566)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">BOOKED ✓</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">6 Hotels (18 nights)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$5,000-7,500</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">Rental Car (19 days, 4WD)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,300-1,700</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">Tours & Activities</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">Meals</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">Fuel, Parks, Ferry, Misc</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$700-1,000</td>
+                </tr>
                 <tr style="background: #E8F6F3; font-weight: bold;">
                     <td style="padding: 10px;">TOTAL (excl. flights)</td>
                     <td style="padding: 10px; text-align: right;">$9,800-14,200</td>
                 </tr>
             </table>
         </section>
-        
+
     </main>
-    
+
     <footer>
         <h2>¡Pura Vida!</h2>
         <p>6 Hotels • 19 Days • Complete Loop</p>
-        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">WS2260 Feb 22 → Tambor → Pacific → Caribbean → Central → Arenal → Monteverde → WS3566 Mar 12</p>
+        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">WS2260 Feb 22 → Playa Naranjo → Pacific →
+            Caribbean →
+            Central → Arenal → Monteverde → WS3566 Mar 12</p>
     </footer>
-    
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const map = L.map('map').setView([9.9, -84.2], 7);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
-        
+
         // Airport
         L.marker([10.5933, -85.5444]).addTo(map).bindPopup('<strong>✈️ LIR - Liberia</strong><br>WS2260 Arrive Feb 22<br>WS3566 Depart Mar 12');
-        
+
         // Hotels
         const hotels = [
-            { name: "Tambor ✨", lat: 9.7167, lng: -85.0167, nights: 2, order: 1, bio: true },
+            { name: "Playa Naranjo ✨", lat: 9.9167, lng: -84.8667, nights: 2, order: 1, bio: true },
             { name: "Manuel Antonio", lat: 9.3920, lng: -84.1360, nights: 3, order: 2 },
             { name: "Caribbean", lat: 9.7333, lng: -82.8333, nights: 4, order: 3 },
             { name: "Turrialba", lat: 9.9044, lng: -83.6856, nights: 3, order: 4 },
             { name: "Arenal", lat: 10.4626, lng: -84.7032, nights: 3, order: 5 },
             { name: "Monteverde", lat: 10.3000, lng: -84.8167, nights: 3, order: 6 }
         ];
-        
+
         hotels.forEach(h => {
             let color = "#1B4F72";
             if (h.bio) color = "#00CED1";
             else if (h.name.includes("Caribbean")) color = "#E67E22";
-            
+
             L.circleMarker([h.lat, h.lng], {
                 radius: 6 + h.nights * 2,
                 fillColor: color,
                 color: "#fff", weight: 2, fillOpacity: 0.8
             }).addTo(map).bindPopup(`<strong>${h.order}. ${h.name}</strong><br>${h.nights} nights`);
         });
-        
+
         // Route
         const route = [
             [10.5933, -85.5444], // LIR arrive
-            [9.7167, -85.0167],  // Tambor (drive around, no ferry)
+            [9.9167, -84.8667],  // Playa Naranjo (no ferry)
             [9.3920, -84.1360],  // MA (ferry out)
             [9.7333, -82.8333],  // Caribbean
             [9.9044, -83.6856],  // Turrialba
@@ -1351,8 +1966,8 @@
             [10.3000, -84.8167], // Monteverde
             [10.5933, -85.5444]  // LIR depart
         ];
-        L.polyline(route, {color: '#1B4F72', weight: 3, opacity: 0.7}).addTo(map);
-        
+        L.polyline(route, { color: '#1B4F72', weight: 3, opacity: 0.7 }).addTo(map);
+
         function toggleDay(h) { h.parentElement.classList.toggle('expanded'); }
         function showAdventure(btn, id) {
             const p = btn.closest('.adventure-choice');
@@ -1375,4 +1990,5 @@
         }
     </script>
 </body>
+
 </html>
