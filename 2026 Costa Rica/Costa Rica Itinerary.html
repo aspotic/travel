@@ -169,6 +169,13 @@
             padding: 12px 5px;
             background: var(--light);
             border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: block;
+        }
+
+        .hotel-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .hotel-item.highlight {
@@ -689,47 +696,43 @@
         </div>
     </div>
 
-    <div class="optimization-banner">
-        <h3>✨ BIOLUMINESCENCE ON DAY 2 ✨</h3>
-        <p>Arrive Day 1, settle in at resort, Bio tour Day 2 evening</p>
-        <div class="moon-visual">🌒 Feb 23: ~25-30% Moon = Excellent Conditions!</div>
-    </div>
-
     <div class="hotel-summary">
-        <h3>🏨 Your 6 Hotels - Complete Loop</h3>
+        <h3>Hotels</h3>
         <p style="text-align: center; font-size: 0.8rem; margin-bottom: 12px;">✅ = Booked &nbsp;|&nbsp; ○ = Suggested
         </p>
         <div class="hotel-grid">
-            <div class="hotel-item highlight" style="border: 2px solid var(--secondary);">
+            <a href="#day-1" class="hotel-item highlight"
+                style="border: 2px solid var(--secondary); text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">2 ✅</div>
                 <div class="location">Playa Naranjo</div>
                 <div class="days">Feb 22-23</div>
-            </div>
-            <div class="hotel-item">
+            </a>
+            <a href="#day-3" class="hotel-item" style="text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">3 ○</div>
                 <div class="location">Manuel Antonio</div>
                 <div class="days">Feb 24-26</div>
-            </div>
-            <div class="hotel-item" style="background: #E8F6F3; border: 2px solid var(--secondary);">
+            </a>
+            <a href="#day-6" class="hotel-item"
+                style="background: #E8F6F3; border: 2px solid var(--secondary); text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">4 ✅</div>
                 <div class="location">Caribbean</div>
                 <div class="days">Feb 27 - Mar 2</div>
-            </div>
-            <div class="hotel-item">
+            </a>
+            <a href="#day-10" class="hotel-item" style="text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">3 ○</div>
                 <div class="location">Turrialba</div>
                 <div class="days">Mar 3-5</div>
-            </div>
-            <div class="hotel-item">
+            </a>
+            <a href="#day-13" class="hotel-item" style="text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">3 ○</div>
                 <div class="location">Arenal</div>
                 <div class="days">Mar 6-8</div>
-            </div>
-            <div class="hotel-item">
+            </a>
+            <a href="#day-16" class="hotel-item" style="text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">3 ○</div>
                 <div class="location">Monteverde</div>
                 <div class="days">Mar 9-11</div>
-            </div>
+            </a>
         </div>
         <p style="text-align: center; margin-top: 12px; font-size: 0.85rem; color: #666;">
             Loop: LIR → Playa Naranjo (no ferry) → Ferry out → Pacific → Caribbean → Central → Arenal → Monteverde → LIR
