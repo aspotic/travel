@@ -872,11 +872,11 @@
                     <div class="days">Feb 22-24</div>
                     <div class="status">✅</div>
                 </div>
-                <div class="hotel-item" onclick="scrollToDay(4)">
+                <div class="hotel-item booked" onclick="scrollToDay(4)">
                     <div class="nights">3</div>
                     <div class="location">Arenal</div>
                     <div class="days">Feb 25-27</div>
-                    <div class="status">○</div>
+                    <div class="status">✅</div>
                 </div>
                 <div class="hotel-item" onclick="scrollToDay(7)">
                     <div class="nights">3</div>
@@ -977,14 +977,15 @@
                     <span class="amount">$1,445</span>
                 </div>
 
+                <div class="budget-row booked">
+                    <span>🏨 Lost Iguana Resort - Arenal</span>
+                    <span class="amount">$972</span>
+                </div>
+
                 <!-- HOTELS TO BOOK -->
                 <div class="budget-row" style="background: #FEF9E7;">
                     <span><strong>🏨 Hotels (Still to book)</strong></span>
                     <span class="amount"></span>
-                </div>
-                <div class="budget-row">
-                    <span>Lomas del Volcán - Arenal (3 nights)</span>
-                    <span class="amount">$750-950</span>
                 </div>
                 <div class="budget-row">
                     <span>Casa Turire - Turrialba (3 nights)</span>
@@ -1321,11 +1322,17 @@
                 </div>
 
                 <div class="accommodation-card">
-                    <h5>Lomas del Volcán</h5>
-                    <div class="price">CAD $250-320/night</div>
-                    <div class="amenities">🌋 Direct Volcano Views • 🛖 Wood Cabins • 🌿 Nature Trails</div>
-                    <p style="margin-top: 8px;">Quiet, private bungalows surrounded by lush gardens and forest.</p>
-                    <a href="https://www.lomasdelvolcan.com" target="_blank">View Hotel →</a>
+                    <h5>Lost Iguana Resort & Spa <span class="badge"
+                            style="background:var(--secondary);color:white;padding:2px 8px;border-radius:12px;font-size:0.8rem;">BOOKED</span>
+                    </h5>
+                    <div class="price">CAD 972 (US$699.97) / 3 nights</div>
+                    <div class="amenities">🌋 Volcano View Room • 🥞 Breakfast Incl. • 🏊 Pool</div>
+                    <p style="margin-top: 8px;">
+                        <strong>Confirmation:</strong> 6813111540 (PIN: 6219)<br>
+                        <strong>Prepayment:</strong> US$699.97 (Charged 30 days prior)<br>
+                        <strong>Dates:</strong> Feb 25 - 28, 2026
+                    </p>
+                    <a href="#" onclick="return false;">Manage Booking (App)</a>
                 </div>
             </div>
         </div>
@@ -2282,7 +2289,7 @@
         // Hotel markers
         const hotels = [
             { coords: [10.3143, -84.8170], name: 'Ocotea Boutique Hotel', nights: '3', dates: 'Feb 22-25', booked: true },
-            { coords: [10.4570, -84.6640], name: 'Lomas del Volcán', nights: '3', dates: 'Feb 25-27', booked: false },
+            { coords: [10.4845, -84.7555], name: 'Lost Iguana Resort', nights: '3', dates: 'Feb 25-27', booked: true },
             { coords: [9.9044, -83.6853], name: 'Casa Turire', nights: '3', dates: 'Feb 28 - Mar 2', booked: false },
             { coords: [9.6565, -82.7550], name: 'Casa Minerva', nights: '4', dates: 'Mar 3-6', booked: true },
             { coords: [9.3833, -84.1500], name: 'Arenas del Mar', nights: '3', dates: 'Mar 7-9', booked: false },
