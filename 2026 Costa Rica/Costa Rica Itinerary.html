@@ -675,7 +675,6 @@
 <body>
     <header class="hero">
         <h1>🇨🇷 Costa Rica</h1>
-        <p class="subtitle">6-Hotel Complete Adventure</p>
         <div class="route">February 22 - March 12, 2026 • 19 Days</div>
     </header>
 
@@ -701,8 +700,8 @@
         <p style="text-align: center; font-size: 0.8rem; margin-bottom: 12px;">✅ = Booked &nbsp;|&nbsp; ○ = Suggested
         </p>
         <div class="hotel-grid">
-            <a href="#day-1" class="hotel-item highlight"
-                style="border: 2px solid var(--secondary); text-decoration: none; color: inherit; cursor: pointer;">
+            <a href="#day-1" class="hotel-item"
+                style="background: #E8F6F3; border: 2px solid var(--secondary); text-decoration: none; color: inherit; cursor: pointer;">
                 <div class="nights">2 ✅</div>
                 <div class="location">Playa Naranjo</div>
                 <div class="days">Feb 22-23</div>
@@ -765,15 +764,17 @@
     </nav>
 
     <main class="container">
-        <section class="map-section">
-            <div id="map"></div>
-        </section>
 
         <div class="section-tabs">
             <button class="section-tab active" onclick="showSection('itinerary')">📅 Itinerary</button>
+            <button class="section-tab" onclick="showSection('map')">🗺️ Map</button>
             <button class="section-tab" onclick="showSection('hotels')">🏨 Hotels</button>
             <button class="section-tab" onclick="showSection('budget')">💰 Budget</button>
         </div>
+
+        <section id="map" class="content-section">
+            <div id="map-container" style="height: 500px; border-radius: 12px; overflow: hidden;"></div>
+        </section>
 
         <section id="itinerary" class="content-section active">
 
@@ -793,7 +794,7 @@
                 <div class="day-content">
                     <div class="info-box">
                         <h4>🛫 Flight WS2260 - Arrives 7:00 AM</h4>
-                        <p>No ferry today! Scenic drive around the Nicoya Peninsula with stops along the way. Arrive at
+                        <p>Scenic drive around the Nicoya Peninsula with stops along the way. Arrive at
                             resort by late afternoon to settle in before tomorrow's bioluminescence.</p>
                     </div>
 
@@ -805,8 +806,16 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">~9:00 AM</div>
+                            <div class="timeline-title">☕ Breakfast at Café Mariposa</div>
+                            <div class="timeline-desc">Great coffee & food near airport • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.6272,-85.4392"
+                                    target="_blank">📍 Directions</a>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">~9:45 AM</div>
                             <div class="timeline-title">Depart Liberia</div>
-                            <div class="timeline-desc">Begin scenic drive south</div>
+                            <div class="timeline-desc">Begin scenic drive south • ⛽ Fill up before leaving</div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="timeline-time">9:30 AM</div>
@@ -816,13 +825,19 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">11:30 AM</div>
-                            <div class="timeline-title">Continue south through Nicoya</div>
-                            <div class="timeline-desc">Coffee stop in Nicoya town</div>
+                            <div class="timeline-title">☕ Coffee stop at Nativo</div>
+                            <div class="timeline-desc">Local specialty coffee & pastries in Nicoya • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.1596,-85.4472"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">1:00 PM</div>
-                            <div class="timeline-title">Lunch in Sámara or Nosara</div>
-                            <div class="timeline-desc">Beach town vibes, fresh seafood</div>
+                            <div class="timeline-title">🍽️ Lunch at Mr. Pelicano</div>
+                            <div class="timeline-desc">Fresh seafood, poke bowls in Sámara • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=9.8816,-85.5269"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">2:30-4:30 PM</div>
@@ -872,12 +887,6 @@
                     <div class="day-toggle">▼</div>
                 </div>
                 <div class="day-content">
-                    <div class="info-box bio">
-                        <h4>✨ EXCELLENT BIOLUMINESCENCE CONDITIONS!</h4>
-                        <p>~25-30% moon = great darkness for glowing water. Every paddle stroke creates light trails.
-                            You can swim and your body will be outlined in blue light!</p>
-                    </div>
-
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-time">Morning</div>
@@ -957,7 +966,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">9:30 AM</div>
                             <div class="timeline-title">Drive to Paquera ferry terminal</div>
-                            <div class="timeline-desc">~20 min from Playa Naranjo</div>
+                            <div class="timeline-desc">~20 min from Playa Naranjo • ⛽ Fill up before ferry</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">10:30 AM</div>
@@ -965,9 +974,14 @@
                             <div class="timeline-desc">~1 hr crossing</div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-time">12:00-3:00 PM</div>
-                            <div class="timeline-title">Drive south to Manuel Antonio</div>
-                            <div class="timeline-desc">~2.5 hrs coastal route via Jacó</div>
+                            <div class="timeline-time">12:00 PM</div>
+                            <div class="timeline-title">🍽️ Quick lunch in Jacó</div>
+                            <div class="timeline-desc">Many options on main strip • or grab snacks for the road</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30-3:00 PM</div>
+                            <div class="timeline-title">Continue to Manuel Antonio</div>
+                            <div class="timeline-desc">~1.5 hrs coastal route from Jacó</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">3:30 PM</div>
@@ -1110,8 +1124,25 @@
 
                     <div class="timeline">
                         <div class="timeline-item">
+                            <div class="timeline-time">6:30 AM</div>
+                            <div class="timeline-title">☕ Coffee at El Patio de Café Milagro</div>
+                            <div class="timeline-desc">Fresh-roasted Costa Rican coffee • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=9.4059,-84.1572"
+                                    target="_blank">📍 Directions</a>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
                             <div class="timeline-time">7:00 AM</div>
                             <div class="timeline-title">Depart Manuel Antonio</div>
+                            <div class="timeline-desc">⛽ Fill up - long driving day ahead!</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:00 AM</div>
+                            <div class="timeline-title">🍽️ Breakfast at Cafe Mono Congo</div>
+                            <div class="timeline-desc">Creative vegetarian dishes, riverside terrace in Dominical • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=9.2569,-83.8635"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="timeline-time">10:00 AM - 12:00 PM</div>
@@ -1120,12 +1151,24 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">12:30 PM</div>
-                            <div class="timeline-title">Lunch near Palmar</div>
+                            <div class="timeline-title">🍽️ Lunch near Palmar</div>
+                            <div class="timeline-desc">Local sodas available • ⛽ Last major fuel stop before Caribbean
+                            </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-time">1:00-5:30 PM</div>
-                            <div class="timeline-title">Drive to Caribbean</div>
-                            <div class="timeline-desc">Via San José bypass to Cahuita (4.5 hrs)</div>
+                            <div class="timeline-time">1:00-3:00 PM</div>
+                            <div class="timeline-title">Drive inland via San José</div>
+                            <div class="timeline-desc">Pan-American Highway north</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">3:00 PM</div>
+                            <div class="timeline-title">☕ Quick stop in Cartago area</div>
+                            <div class="timeline-desc">Stretch legs, snacks - halfway point</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">3:30-5:30 PM</div>
+                            <div class="timeline-title">Continue to Caribbean</div>
+                            <div class="timeline-desc">Scenic descent via Siquirres to coast</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">Evening</div>
@@ -1327,9 +1370,17 @@
                 <div class="day-content">
                     <div class="timeline">
                         <div class="timeline-item">
-                            <div class="timeline-time">8:00 AM</div>
-                            <div class="timeline-title">Final Caribbean breakfast</div>
-                            <div class="timeline-desc">Rice & beans one more time</div>
+                            <div class="timeline-time">7:30 AM</div>
+                            <div class="timeline-title">☕ Breakfast at Bread & Chocolate</div>
+                            <div class="timeline-desc">Beloved bakery cafe in Puerto Viejo • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=9.6564,-82.7539"
+                                    target="_blank">📍 Directions</a>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:00 AM</div>
+                            <div class="timeline-title">Depart Caribbean</div>
+                            <div class="timeline-desc">⛽ Fill up before leaving coast</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">9:00 AM - 12:00 PM</div>
@@ -1338,7 +1389,11 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">12:30 PM</div>
-                            <div class="timeline-title">Lunch, check in</div>
+                            <div class="timeline-title">🍽️ Lunch at Merayo Coffee</div>
+                            <div class="timeline-desc">Historic coffee shop since 1926 • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=9.9044,-83.6856"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="timeline-time">2:00-5:00 PM</div>
@@ -1485,9 +1540,17 @@
 
                     <div class="timeline">
                         <div class="timeline-item">
+                            <div class="timeline-time">7:00 AM</div>
+                            <div class="timeline-title">☕ Coffee at Honey Dipper</div>
+                            <div class="timeline-desc">Cozy Turrialba coffee shop • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=9.9078,-83.6831"
+                                    target="_blank">📍 Directions</a>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
                             <div class="timeline-time">7:30 AM</div>
                             <div class="timeline-title">Depart Turrialba for San José</div>
-                            <div class="timeline-desc">1.5 hours to city center</div>
+                            <div class="timeline-desc">1.5 hours to city center • ⛽ Fill up before leaving</div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="timeline-time">9:00 AM - 12:00 PM</div>
@@ -1504,6 +1567,14 @@
                             <div class="timeline-time">1:30-4:00 PM</div>
                             <div class="timeline-title">Drive to Arenal</div>
                             <div class="timeline-desc">2.5 hours via scenic route</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">4:30 PM</div>
+                            <div class="timeline-title">☕ Arrival coffee at Red Frog Coffee</div>
+                            <div class="timeline-desc">Best coffee in La Fortuna, roasted on-site • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.4678,-84.6427"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">Evening</div>
@@ -1649,8 +1720,16 @@
 
                     <div class="timeline">
                         <div class="timeline-item">
+                            <div class="timeline-time">7:00 AM</div>
+                            <div class="timeline-title">☕ Coffee at Arabigos Coffee House</div>
+                            <div class="timeline-desc">Modern coffee culture in La Fortuna • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.4689,-84.6441"
+                                    target="_blank">📍 Directions</a>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
                             <div class="timeline-time">8:00 AM</div>
-                            <div class="timeline-title">Final Arenal breakfast</div>
+                            <div class="timeline-title">Final Arenal breakfast at hotel</div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="timeline-time">8:30 AM - 12:00 PM</div>
@@ -1659,7 +1738,11 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">12:30 PM</div>
-                            <div class="timeline-title">Arrive Monteverde, lunch</div>
+                            <div class="timeline-title">🍽️ Lunch at Morphos Restaurant</div>
+                            <div class="timeline-desc">Forest-like atmosphere, varied menu • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.3150,-84.8211"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">2:00-5:00 PM</div>
@@ -1805,23 +1888,36 @@
 
                     <div class="timeline">
                         <div class="timeline-item">
-                            <div class="timeline-time">8:00 AM</div>
-                            <div class="timeline-title">Leisurely breakfast</div>
+                            <div class="timeline-time">7:30 AM</div>
+                            <div class="timeline-title">☕ Coffee at Café Monteverde</div>
+                            <div class="timeline-desc">Free coffee tasting, buy beans for home! • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.3170,-84.8233"
+                                    target="_blank">📍 Directions</a>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:30 AM</div>
+                            <div class="timeline-title">Leisurely breakfast at hotel</div>
                             <div class="timeline-desc">No rush this morning</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">9:00-11:00 AM</div>
                             <div class="timeline-title">Final morning options</div>
-                            <div class="timeline-desc">Quick reserve walk, coffee shopping, or pack and relax</div>
+                            <div class="timeline-desc">Quick reserve walk or pack and relax</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">11:30 AM</div>
-                            <div class="timeline-title">Check out, grab lunch</div>
+                            <div class="timeline-title">🍽️ Lunch at Stella's Bakery</div>
+                            <div class="timeline-desc">Fresh baked goods, sandwiches, quiche • <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=10.3071,-84.8117"
+                                    target="_blank">📍 Directions</a>
+                            </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">12:00 PM</div>
                             <div class="timeline-title">Depart for Liberia</div>
-                            <div class="timeline-desc">2.5 hr drive via Tilarán - one more Lake Arenal view!</div>
+                            <div class="timeline-desc">2.5 hr drive via Tilarán • ⛽ Fill up before leaving • One more
+                                Lake Arenal view!</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">2:30 PM</div>
@@ -1923,33 +2019,166 @@
                         style="padding: 8px; text-align: right; border-bottom: 1px solid #eee; color: var(--secondary); font-weight: 600;">
                         $596.23</td>
                 </tr>
+
                 <tr style="background: #FEF9E7;">
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc;" colspan="2"><strong>○ ESTIMATED (Still to
-                            book)</strong></td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc;" colspan="2"><strong>○ ACCOMMODATIONS (Still
+                            to book)</strong></td>
                 </tr>
                 <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🏨 4 Suggested Hotels (12 nights)</td>
-                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$3,500-5,500</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🏨 Arenas del Mar - Manuel Antonio (3
+                        nights)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,350-1,950</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🏨 Casa Turire - Turrialba (3 nights)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$750-1,050</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🏨 Observatory Lodge - Arenal (3 nights)
+                    </td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$540-750</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🏨 Hotel Belmar - Monteverde (3 nights)
+                    </td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$840-1,200</td>
+                </tr>
+
+                <tr style="background: #FEF9E7;">
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc;" colspan="2"><strong>○ TOURS & ACTIVITIES
+                            (To book)</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 2: ✨
+                        Bioluminescence Kayak Tour</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$80-120</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 4: 🐒 Manuel
+                        Antonio NP + Guide</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$50-80</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 4: 🐋 Whale
+                        Watching (Planet Dolphin)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$170 ($85 USD x2)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 5: �️ Marino
+                        Ballena NP - Uvita (optional)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$20</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 6: 🏺 Finca 6 Stone
+                        Spheres (UNESCO)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$10</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 8: 🌿 Bribri
+                        Community Visit OR Tortuguero</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$100-150</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 8: 🐆 Jaguar Rescue
+                        Center (if beach day)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$50</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 9: 🍫 Chocolate
+                        Tour (optional)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$50-70</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 10: 🌱 CATIE
+                        Botanical Gardens</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$20</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 11: 🏺 Guayabo
+                        Archaeological Site</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$15</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 12: 🚣 Pacuare
+                        River Rafting</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$200 ($99 USD x2)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 13: 🏛️ San José
+                        Museums (Gold + Theater)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$30</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 13+: ♨️ Hot Springs
+                        (Tabacón/Ecotermales)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$100-200</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 14: 🌋 Arenal
+                        Volcano NP OR Río Celeste</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$30</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 14: 👥 Maleku
+                        Community (if Option A)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$80-120</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 15: 🦜 La Selva
+                        Biological Station</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$60-80</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 15: � Tirimbina
+                        Reserve + Chocolate</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$60-80</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 16: 🚤
+                        Jeep-Boat-Jeep Transfer</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$60-80</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 16: 🦉 Night Tour -
+                        Santa Elena</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$60-80</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 17: 🦜 Monteverde
+                        Reserve + Quetzal Guide</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$100-150</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 17: 🪢 Selvatura
+                        Zipline (optional)</td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$100-150</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee; padding-left: 20px;">Day 18: ☕ Coffee Tour
+                    </td>
+                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">~$50-70</td>
+                </tr>
+
+                <tr style="background: #FEF9E7;">
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc;" colspan="2"><strong>○ OTHER
+                            EXPENSES</strong></td>
                 </tr>
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #eee;">🚗 Rental Car (19 days, 4WD)</td>
                     <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,300-1,700</td>
                 </tr>
                 <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🎫 Tours & Activities</td>
-                    <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🍽️ Meals</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #eee;">🍽️ Meals (19 days)</td>
                     <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$1,400-2,000</td>
                 </tr>
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #eee;">⛽ Fuel, Parks, Ferry, Misc</td>
                     <td style="padding: 8px; text-align: right; border-bottom: 1px solid #eee;">$700-1,000</td>
                 </tr>
+
                 <tr style="background: #E8F6F3; font-weight: bold;">
                     <td style="padding: 10px;">TOTAL (excl. flights)</td>
-                    <td style="padding: 10px; text-align: right;">~$8,900-12,800</td>
+                    <td style="padding: 10px; text-align: right;">~$9,500-14,000</td>
                 </tr>
             </table>
         </section>
@@ -1966,46 +2195,131 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const map = L.map('map').setView([9.9, -84.2], 7);
+        const map = L.map('map-container').setView([9.9, -84.2], 7);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
 
         // Airport
-        L.marker([10.5933, -85.5444]).addTo(map).bindPopup('<strong>✈️ LIR - Liberia</strong><br>WS2260 Arrive Feb 22<br>WS3566 Depart Mar 12');
+        L.marker([10.5933, -85.5444]).addTo(map).bindPopup('<strong>✈️ LIR - Liberia Airport</strong><br>WS2260 Arrive Feb 22<br>WS3566 Depart Mar 12');
 
-        // Hotels
+        // Hotels with specific names and booking status
         const hotels = [
-            { name: "Playa Naranjo ✨", lat: 9.9167, lng: -84.8667, nights: 2, order: 1, bio: true },
-            { name: "Manuel Antonio", lat: 9.3920, lng: -84.1360, nights: 3, order: 2 },
-            { name: "Caribbean", lat: 9.7333, lng: -82.8333, nights: 4, order: 3 },
-            { name: "Turrialba", lat: 9.9044, lng: -83.6856, nights: 3, order: 4 },
-            { name: "Arenal", lat: 10.4626, lng: -84.7032, nights: 3, order: 5 },
-            { name: "Monteverde", lat: 10.3000, lng: -84.8167, nights: 3, order: 6 }
+            { name: "Opacifico Hotel", location: "Playa Naranjo", lat: 9.9167, lng: -84.8667, nights: 2, order: 1, booked: true },
+            { name: "Arenas del Mar", location: "Manuel Antonio", lat: 9.3920, lng: -84.1360, nights: 3, order: 2, booked: false },
+            { name: "Casa Minerva Airbnb", location: "Puerto Viejo", lat: 9.6548, lng: -82.7550, nights: 4, order: 3, booked: true },
+            { name: "Casa Turire", location: "Turrialba", lat: 9.9044, lng: -83.6856, nights: 3, order: 4, booked: false },
+            { name: "Observatory Lodge", location: "Arenal", lat: 10.4626, lng: -84.7032, nights: 3, order: 5, booked: false },
+            { name: "Hotel Belmar", location: "Monteverde", lat: 10.3000, lng: -84.8167, nights: 3, order: 6, booked: false }
         ];
 
         hotels.forEach(h => {
-            let color = "#1B4F72";
-            if (h.bio) color = "#00CED1";
-            else if (h.name.includes("Caribbean")) color = "#E67E22";
-
+            const color = h.booked ? "#27ae60" : "#1B4F72";
+            const status = h.booked ? "✅ BOOKED" : "○ Suggested";
             L.circleMarker([h.lat, h.lng], {
-                radius: 6 + h.nights * 2,
+                radius: 8 + h.nights * 2,
                 fillColor: color,
-                color: "#fff", weight: 2, fillOpacity: 0.8
-            }).addTo(map).bindPopup(`<strong>${h.order}. ${h.name}</strong><br>${h.nights} nights`);
+                color: "#fff", weight: 2, fillOpacity: 0.9
+            }).addTo(map).bindPopup(`<strong>🏨 ${h.order}. ${h.name}</strong><br>${h.location}<br>${h.nights} nights<br><em>${status}</em>`);
         });
 
-        // Route
-        const route = [
-            [10.5933, -85.5444], // LIR arrive
-            [9.9167, -84.8667],  // Playa Naranjo (no ferry)
-            [9.3920, -84.1360],  // MA (ferry out)
-            [9.7333, -82.8333],  // Caribbean
-            [9.9044, -83.6856],  // Turrialba
-            [10.4626, -84.7032], // Arenal
-            [10.3000, -84.8167], // Monteverde
-            [10.5933, -85.5444]  // LIR depart
+        // Coffee shops (☕)
+        const coffeeStops = [
+            { name: "Café Mariposa", location: "Liberia", lat: 10.6272, lng: -85.4392, day: 1 },
+            { name: "Nativo Coffee", location: "Nicoya", lat: 10.1431, lng: -85.4517, day: 1 },
+            { name: "El Patio de Café Milagro", location: "Manuel Antonio", lat: 9.4017, lng: -84.1555, day: 6 },
+            { name: "Bread & Chocolate", location: "Puerto Viejo", lat: 9.6553, lng: -82.7538, day: 10 },
+            { name: "Honey Dipper", location: "Turrialba", lat: 9.9044, lng: -83.6856, day: 13 },
+            { name: "Red Frog Coffee", location: "La Fortuna", lat: 10.4678, lng: -84.6427, day: 13 },
+            { name: "Arabigos Coffee", location: "La Fortuna", lat: 10.4689, lng: -84.6441, day: 16 },
+            { name: "Café Monteverde", location: "Monteverde", lat: 10.3106, lng: -84.8253, day: 19 }
         ];
-        L.polyline(route, { color: '#1B4F72', weight: 3, opacity: 0.7 }).addTo(map);
+
+        coffeeStops.forEach(c => {
+            L.circleMarker([c.lat, c.lng], {
+                radius: 5,
+                fillColor: "#8B4513",
+                color: "#fff", weight: 1, fillOpacity: 0.8
+            }).addTo(map).bindPopup(`<strong>☕ ${c.name}</strong><br>${c.location}<br>Day ${c.day} stop`);
+        });
+
+        // Restaurants (🍽️)
+        const restaurants = [
+            { name: "Mr. Pelicano", location: "Sámara", lat: 9.8788, lng: -85.5281, day: 1 },
+            { name: "Cafe Mono Congo", location: "Dominical", lat: 9.2505, lng: -83.8561, day: 6 },
+            { name: "Merayo Coffee", location: "Turrialba", lat: 9.9044, lng: -83.6856, day: 10 },
+            { name: "Morphos Restaurant", location: "Monteverde", lat: 10.3106, lng: -84.8253, day: 16 },
+            { name: "Stella's Bakery", location: "Monteverde", lat: 10.3067, lng: -84.7989, day: 19 }
+        ];
+
+        restaurants.forEach(r => {
+            L.circleMarker([r.lat, r.lng], {
+                radius: 5,
+                fillColor: "#E67E22",
+                color: "#fff", weight: 1, fillOpacity: 0.8
+            }).addTo(map).bindPopup(`<strong>🍽️ ${r.name}</strong><br>${r.location}<br>Day ${r.day} stop`);
+        });
+
+        // Route - Complete itinerary with all stops
+        const route = [
+            // Day 1: Liberia → Playa Naranjo
+            [10.5933, -85.5444], // LIR Airport arrive
+            [10.6272, -85.4392], // Café Mariposa (Liberia)
+            [10.5189, -85.3702], // Llanos de Cortés Waterfall
+            [10.1596, -85.4472], // Nativo Coffee (Nicoya)
+            [9.8816, -85.5269],  // Mr. Pelicano (Sámara)
+            [9.9167, -84.8667],  // Opacifico Hotel (Playa Naranjo)
+
+            // Day 3: Playa Naranjo → Ferry → Manuel Antonio
+            [9.8208, -84.9381],  // Paquera Ferry Terminal
+            [9.9767, -84.8325],  // Puntarenas (ferry landing)
+            [9.6208, -84.6294],  // Jacó (lunch stop)
+            [9.3920, -84.1360],  // Manuel Antonio (Arenas del Mar)
+
+            // Day 6: Manuel Antonio → Caribbean (long day)
+            [9.4059, -84.1572],  // El Patio de Café Milagro
+            [9.2569, -83.8635],  // Cafe Mono Congo (Dominical)
+            [8.9264, -83.4758],  // Finca 6 Stone Spheres (UNESCO)
+            [8.9400, -83.4600],  // Palmar (lunch/fuel)
+            [9.9344, -84.0833],  // Cartago area (break)
+            [9.6548, -82.7550],  // Casa Minerva (Puerto Viejo)
+
+            // Day 10: Caribbean → Turrialba
+            [9.6564, -82.7539],  // Bread & Chocolate
+            [9.9044, -83.6856],  // Turrialba (Casa Turire / Merayo)
+
+            // Day 13: Turrialba → San José → Arenal
+            [9.9078, -83.6831],  // Honey Dipper (Turrialba)
+            [9.9333, -84.0833],  // San José (museums/lunch)
+            [10.4678, -84.6427], // Red Frog Coffee (La Fortuna)
+            [10.4626, -84.7032], // Observatory Lodge (Arenal)
+
+            // Day 16: Arenal → Monteverde
+            [10.4689, -84.6441], // Arabigos Coffee (La Fortuna)
+            [10.5000, -84.8167], // Lake Arenal boat crossing
+            [10.3150, -84.8211], // Morphos Restaurant (Monteverde)
+            [10.3000, -84.8167], // Hotel Belmar (Monteverde)
+
+            // Day 19: Monteverde → Liberia
+            [10.3170, -84.8233], // Café Monteverde
+            [10.3071, -84.8117], // Stella's Bakery
+            [10.4700, -84.9500], // Tilarán (en route)
+            [10.5933, -85.5444]  // LIR Airport depart
+        ];
+        L.polyline(route, { color: '#1B4F72', weight: 3, opacity: 0.7, dashArray: '10, 5' }).addTo(map);
+
+        // Legend
+        const legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function () {
+            const div = L.DomUtil.create('div', 'map-legend');
+            div.style.cssText = 'background: white; padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); font-size: 12px;';
+            div.innerHTML = `
+                <div style="margin-bottom: 4px;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#27ae60;margin-right:6px;"></span>Hotel (Booked)</div>
+                <div style="margin-bottom: 4px;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#1B4F72;margin-right:6px;"></span>Hotel (Suggested)</div>
+                <div style="margin-bottom: 4px;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#8B4513;margin-right:6px;"></span>Coffee Shop</div>
+                <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#E67E22;margin-right:6px;"></span>Restaurant</div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
 
         function toggleDay(h) { h.parentElement.classList.toggle('expanded'); }
         function showAdventure(btn, id) {
@@ -2020,6 +2334,10 @@
             document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             event.target.classList.add('active');
+            // Fix Leaflet map rendering when switching to map tab
+            if (id === 'map') {
+                setTimeout(() => map.invalidateSize(), 100);
+            }
         }
         function scrollToDay(n) {
             if (n === 0) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
