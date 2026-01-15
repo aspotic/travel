@@ -866,11 +866,11 @@
             <div class="legend" style="text-align: center; margin-bottom: 10px; font-size: 0.85rem; color: #666;">✅ =
                 Booked | ○ = Suggested</div>
             <div class="hotel-grid">
-                <div class="hotel-item" onclick="scrollToDay(1)">
+                <div class="hotel-item booked" onclick="scrollToDay(1)">
                     <div class="nights">3</div>
                     <div class="location">Monteverde</div>
                     <div class="days">Feb 22-24</div>
-                    <div class="status">○</div>
+                    <div class="status">✅</div>
                 </div>
                 <div class="hotel-item" onclick="scrollToDay(4)">
                     <div class="nights">3</div>
@@ -972,14 +972,15 @@
                     <span class="amount">$596</span>
                 </div>
 
+                <div class="budget-row booked">
+                    <span>🏨 Hotel con Corazon - Monteverde</span>
+                    <span class="amount">$839</span>
+                </div>
+
                 <!-- HOTELS TO BOOK -->
                 <div class="budget-row" style="background: #FEF9E7;">
                     <span><strong>🏨 Hotels (Still to book)</strong></span>
                     <span class="amount"></span>
-                </div>
-                <div class="budget-row">
-                    <span>Hotel Belmar - Monteverde (3 nights)</span>
-                    <span class="amount">$840-1,200</span>
                 </div>
                 <div class="budget-row">
                     <span>Lomas del Volcán - Arenal (3 nights)</span>
@@ -1171,11 +1172,15 @@
                 </div>
 
                 <div class="accommodation-card">
-                    <h5>Hotel Belmar</h5>
-                    <div class="price">CAD $280-400/night</div>
-                    <div class="amenities">🍽️ Farm-to-table • 🌄 Views • 🍷 Wine cellar • 🧀 Cheese</div>
-                    <p style="margin-top: 8px;">Sustainability leader with exceptional dining</p>
-                    <a href="https://www.hotelbelmar.net" target="_blank">Book →</a>
+                    <h5>Hotel con Corazon Monteverde <span class="badge" style="background:var(--secondary);color:white;padding:2px 8px;border-radius:12px;font-size:0.8rem;">BOOKED</span></h5>
+                    <div class="price">CAD 839 (US$604.10) / 3 nights</div>
+                    <div class="amenities">🛏️ Triple Room • 🥞 Breakfast Incl. • ⛰️ Mountain View</div>
+                    <p style="margin-top: 8px;">
+                        <strong>Confirmation:</strong> 6033432426 (PIN: 0287)<br>
+                        <strong>Pay at property:</strong> US$604.10<br>
+                        <strong>Dates:</strong> Feb 22 - 25, 2026
+                    </p>
+                    <a href="#" onclick="return false;">Manage Booking (App)</a>
                 </div>
             </div>
         </div>
@@ -2274,7 +2279,7 @@
 
         // Hotel markers
         const hotels = [
-            { coords: [10.2805, -84.8243], name: 'Hotel Belmar', nights: '3', dates: 'Feb 22-24', booked: false },
+            { coords: [10.3175, -84.8242], name: 'Hotel con Corazon', nights: '3', dates: 'Feb 22-25', booked: true },
             { coords: [10.4570, -84.6640], name: 'Lomas del Volcán', nights: '3', dates: 'Feb 25-27', booked: false },
             { coords: [9.9044, -83.6853], name: 'Casa Turire', nights: '3', dates: 'Feb 28 - Mar 2', booked: false },
             { coords: [9.6565, -82.7550], name: 'Casa Minerva', nights: '4', dates: 'Mar 3-6', booked: true },
