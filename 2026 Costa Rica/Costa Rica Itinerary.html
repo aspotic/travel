@@ -890,17 +890,17 @@
                     <div class="days">Mar 3-6</div>
                     <div class="status">✅</div>
                 </div>
-                <div class="hotel-item" onclick="scrollToDay(14)">
+                <div class="hotel-item booked" onclick="scrollToDay(14)">
                     <div class="nights">3</div>
                     <div class="location">Manuel Antonio</div>
                     <div class="days">Mar 7-9</div>
-                    <div class="status">○</div>
+                    <div class="status">✅</div>
                 </div>
-                <div class="hotel-item highlight" onclick="scrollToDay(17)">
+                <div class="hotel-item highlight booked" onclick="scrollToDay(17)">
                     <div class="nights">2</div>
                     <div class="location">Vista Las Islas ✨</div>
                     <div class="days">Mar 10-11</div>
-                    <div class="status">○</div>
+                    <div class="status">✅</div>
                 </div>
             </div>
         </div>
@@ -979,7 +979,17 @@
 
                 <div class="budget-row booked">
                     <span>🏨 Lost Iguana Resort - Arenal</span>
-                    <span class="amount">$972</span>
+                    <span class="amount">$947</span>
+                </div>
+
+                <div class="budget-row booked">
+                    <span>🏨 The Big Tree House - Manuel Antonio</span>
+                    <span class="amount">BOOKED ✓</span>
+                </div>
+
+                <div class="budget-row booked">
+                    <span>🏨 Vista Las Islas - Nicoya</span>
+                    <span class="amount">BOOKED ✓</span>
                 </div>
 
                 <!-- HOTELS TO BOOK -->
@@ -990,14 +1000,6 @@
                 <div class="budget-row">
                     <span>Casa Turire - Turrialba (3 nights)</span>
                     <span class="amount">$750-1,050</span>
-                </div>
-                <div class="budget-row">
-                    <span>Arenas del Mar - Manuel Antonio (3 nights)</span>
-                    <span class="amount">$1,350-1,950</span>
-                </div>
-                <div class="budget-row">
-                    <span>Vista Las Islas - Nicoya (2 nights)</span>
-                    <span class="amount">$200-300</span>
                 </div>
 
                 <!-- TOURS -->
@@ -1350,14 +1352,15 @@
                             class="badge"
                             style="background:var(--secondary);color:white;padding:2px 8px;border-radius:12px;font-size:0.8rem;">BOOKED</span>
                     </h5>
-                    <div class="price">CAD 972 (US$699.97) / 3 nights</div>
+                    <div class="price">CAD 947 (US$699.97) / 3 nights</div>
                     <div class="amenities">🌋 Volcano View Room • 🥞 Breakfast Incl. • 🏊 Pool</div>
                     <p style="margin-top: 8px;">
                         <strong>Confirmation:</strong> 6813111540 (PIN: 6219)<br>
-                        <strong>Prepayment:</strong> US$699.97 (Charged 30 days prior)<br>
-                        <strong>Dates:</strong> Feb 25 - 28, 2026
+                        <strong>Prepayment:</strong> US$699.97 (Charged 7 days prior)<br>
+                        <strong>Dates:</strong> Feb 25 - 28, 2026<br>
+                        <strong>Check-in:</strong> Feb 25, 2:00 PM - 7:00 PM • <strong>Check-out:</strong> Feb 28, 8:00 AM - 12:00 PM
                     </p>
-                    <a href="#" onclick="return false;">Manage Booking (App)</a>
+                    <a href="https://www.booking.com/hotel/cr/lost-iguana-resort-and-spa.en-us.html" target="_blank">View on Booking.com →</a>
                 </div>
             </div>
         </div>
@@ -1713,9 +1716,10 @@
                     <h5>✅ Salt n' Pepper | Parsley Villa w/pool <a href="https://www.google.com/maps/search/?api=1&query=Salt+n+Pepper+Puerto+Viejo+Costa+Rica" target="_blank" style="text-decoration:none;">📍</a></h5>
                     <div class="price">CAD $941.41 total (4 nights)</div>
                     <div class="amenities">🏊 Pool • 🌴 Jungle Vibe • 📍 Playa Negra • ❄️ AC</div>
-                    <div class="booking-status booked">✅ BOOKED • Mar 3-6, 2026</div>
+                    <div class="booking-status booked">✅ BOOKED • Mar 3 - 7, 2026</div>
                     <p style="margin-top: 5px; font-size: 0.85rem;"><strong>Confirmation:</strong> HMSAW59RB4</p>
                     <p style="font-size: 0.85rem;"><strong>Host:</strong> Karlene</p>
+                    <p style="font-size: 0.85rem;"><strong>Check-in:</strong> Mar 3, 3:00 PM • <strong>Check-out:</strong> Mar 7, 11:00 AM</p>
                     <a href="https://www.airbnb.ca/rooms/1222510342334538453" target="_blank">View Listing →</a>
                 </div>
             </div>
@@ -1962,14 +1966,17 @@
                         it.</p>
                 </div>
 
-                <div class="accommodation-card">
-                    <h5><a href="https://www.arenasdelmar.com" target="_blank"
-                            style="text-decoration: none; color: inherit;">Arenas del Mar</a> <a href="https://www.google.com/maps/search/?api=1&query=Arenas+del+Mar+Manuel+Antonio" target="_blank" style="text-decoration:none;">📍</a></h5>
-                    <div class="price">CAD $450-650/night</div>
-                    <div class="amenities">🏖️ Two private beaches • 🏊 Infinity pools • 🌿 Nature reserve • 🍽️
-                        Farm-to-table</div>
-                    <p style="margin-top: 8px;">Best location in Manuel Antonio, exceptional sustainability</p>
-                    <a href="https://www.arenasdelmar.com" target="_blank">Book →</a>
+                <div class="accommodation-card booked">
+                    <h5><a href="https://www.airbnb.ca/rooms/45545630" target="_blank"
+                            style="text-decoration: none; color: inherit;">The Big Tree House</a> <a href="https://www.google.com/maps/search/?api=1&query=9.42138,-84.16543" target="_blank" style="text-decoration:none;">📍</a> <span class="badge"
+                            style="background:var(--secondary);color:white;padding:2px 8px;border-radius:12px;font-size:0.8rem;">BOOKED</span>
+                    </h5>
+                    <div class="price">Manuel Antonio / Quepos (3 nights)</div>
+                    <div class="amenities">🏊 Pool • 🌊 Ocean View • 🌿 Rainforest Setting • 🐒 Wildlife Viewing</div>
+                    <div class="booking-status booked">✅ BOOKED • Mar 7 - 10, 2026</div>
+                    <p style="margin-top: 5px; font-size: 0.85rem;"><strong>Confirmation:</strong> HMP3XKJBJ4</p>
+                    <p style="font-size: 0.85rem;"><strong>Check-in:</strong> Mar 7, 2:00 PM • <strong>Check-out:</strong> Mar 10, 10:00 AM</p>
+                    <a href="https://www.airbnb.ca/rooms/45545630" target="_blank">View Listing →</a>
                 </div>
             </div>
         </div>
@@ -2146,17 +2153,20 @@
                     </div>
                 </div>
 
-                <div class="accommodation-card">
+                <div class="accommodation-card booked">
                     <h5><a href="https://vistalasislas.com" target="_blank"
-                            style="text-decoration: none; color: inherit;">Vista Las Islas Eco Boutique Hotel</a> <a href="https://www.google.com/maps/search/?api=1&query=Vista+Las+Islas+Hotel+Paquera" target="_blank" style="text-decoration:none;">📍</a></h5>
-                    <div class="price">CAD $180-280/night</div>
+                            style="text-decoration: none; color: inherit;">Vista Las Islas Eco Boutique Hotel</a> <a href="https://www.google.com/maps/search/?api=1&query=Vista+Las+Islas+Hotel+Paquera" target="_blank" style="text-decoration:none;">📍</a> <span class="badge"
+                            style="background:var(--secondary);color:white;padding:2px 8px;border-radius:12px;font-size:0.8rem;">BOOKED</span>
+                    </h5>
+                    <div class="price">2 nights</div>
                     <div class="amenities">🏊 Pool • 🏖️ Island views • 🍽️ Organic restaurant • ✨ Bio tours •
                         🦭
                         Wildlife</div>
+                    <div class="booking-status booked">✅ BOOKED • Mar 10 - 12, 2026</div>
                     <p style="margin-top: 8px;">Eco boutique hotel on Nicoya Peninsula - bioluminescence,
                         Tortuga
                         Island, Curú Wildlife tours</p>
-                    <a href="https://vistalasislas.com" target="_blank">Book →</a>
+                    <a href="https://vistalasislas.com" target="_blank">View Listing →</a>
                 </div>
             </div>
         </div>
@@ -2365,11 +2375,11 @@
         // Hotel markers
         const hotels = [
             { coords: [10.3143, -84.8170], name: 'Ocotea Boutique Hotel', nights: '3', dates: 'Feb 22-25', booked: true },
-            { coords: [10.4845, -84.7555], name: 'Lost Iguana Resort', nights: '3', dates: 'Feb 25-27', booked: true },
+            { coords: [10.4845, -84.7555], name: 'Lost Iguana Resort', nights: '3', dates: 'Feb 25-28', booked: true },
             { coords: [9.9044, -83.6853], name: 'Casa Turire', nights: '3', dates: 'Feb 28 - Mar 2', booked: false },
             { coords: [9.6631, -82.7664], name: 'Salt n\' Pepper', nights: '4', dates: 'Mar 3-6', booked: true },
             { coords: [9.3833, -84.1500], name: 'Arenas del Mar', nights: '3', dates: 'Mar 7-9', booked: false },
-            { coords: [9.9091, -84.9792], name: 'Vista Las Islas', nights: '2', dates: 'Mar 10-11', booked: false, bio: true }
+            { coords: [9.9091, -84.9792], name: 'Vista Las Islas', nights: '2', dates: 'Mar 10-12', booked: true, bio: true }
         ];
 
         hotels.forEach(h => {
